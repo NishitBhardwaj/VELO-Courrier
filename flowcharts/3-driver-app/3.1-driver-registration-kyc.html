@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.1 Driver Registration & KYC Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🚚 3. Driver App Flows</div>
+        <h1>3.1 Driver Registration & KYC Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Open Driver App]
+    B --> C[Tap Register as Driver]
+    C --> D[Enter Personal Details]
+    D --> E["Name, Phone, Email,<br/>City, Emergency Contact"]
+
+    E --> F[Send OTP to Phone]
+    F --> G[Verify OTP]
+    G --> H{OTP Valid?}
+    H -->|No| I[Retry OTP]
+    I --> F
+    H -->|Yes| J[Create Driver Account]
+
+    J --> K[Show KYC Document Upload]
+    K --> L["Required Documents:<br/>1. Aadhaar Card<br/>2. PAN Card<br/>3. Driving License<br/>4. Profile Photo"]
+
+    L --> M[Upload Aadhaar — Front & Back]
+    M --> N[Upload PAN Card]
+    N --> O[Upload Driving License]
+    O --> P[Upload Profile Photo]
+    P --> Q[Upload Additional ID if Required]
+
+    Q --> R{All Documents Uploaded?}
+    R -->|No| S[Show Missing Documents List]
+    S --> K
+    R -->|Yes| T[Submit for Verification]
+
+    T --> U[Status: KYC_SUBMITTED]
+    U --> V[Admin Receives Verification Request]
+    V --> W[Admin Reviews Documents]
+    W --> X{Documents Valid?}
+
+    X -->|Approved| Y[Status: KYC_APPROVED]
+    Y --> Z[Notify Driver: Approved]
+    Z --> AA[Unlock Vehicle Registration]
+    AA --> AB([🔴 END — KYC Approved]):::endNode
+
+    X -->|Rejected| AC[Status: KYC_REJECTED]
+    AC --> AD["Notify Driver: Rejected<br/>with Rejection Reason"]
+    AD --> AE{Resubmit?}
+    AE -->|Yes| K
+    AE -->|No| AF([🔴 END — Rejected]):::endNode
+
+    X -->|Needs More Info| AG[Request Additional Documents]
+    AG --> AH[Notify Driver: Documents Needed]
+    AH --> K
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

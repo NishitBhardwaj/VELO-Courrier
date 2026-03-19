@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.10 CI/CD & Environment Flow Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.10 CI/CD & Environment Flow Diagram <span class="badge">SDE</span></h1>
+        <div class="subtitle">DevOps Pipeline and Release Management</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+graph LR
+    subgraph DEV_WORKFLOW["🛠️ Development"]
+        D1["Local Code"] --> D2["Git Commit"]
+        D2 --> D3["Pull Request"]
+    end
+
+    subgraph PIPELINE["🚀 GitHub Actions / Jenkins"]
+        P1["Build & Compile"]
+        P2["Unit Tests"]
+        P3["Linting / Security Scan"]
+        P4["Docker Image Build"]
+        P5["Push to ECR / Registry"]
+    end
+
+    subgraph ENVS["🌍 Environments"]
+        direction TB
+        E1["🧪 Staging / QA<br/>(Auto-Deploy on Master)"]
+        E2["🚀 Production<br/>(Manual Approval Release)"]
+    end
+
+    D3 --> P1
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    P4 --> P5
+    P5 --> E1
+    E1 -->|QA Sign-off| E2
+
+    subgraph OBS["📊 Monitoring"]
+        M1["CloudWatch"]
+        M2["Grafana / Prometheus"]
+        M3["ELK Stack / Logs"]
+    end
+
+    E1 & E2 --> OBS
+
+    style D1,D2,D3 fill:#1e293b,stroke:#475569,color:#cbd5e1
+    style P1,P2,P3,P4,P5 fill:#1e3a8a,stroke:#3b82f6,color:#fff
+    style E1 fill:#064e3b,stroke:#10b981,color:#fff
+    style E2 fill:#7f1d1d,stroke:#ef4444,color:#fff
+    style M1,M2,M3 fill:#1e293b,stroke:#475569,color:#cbd5e1
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8' } });</script>
+</body>
+</html>

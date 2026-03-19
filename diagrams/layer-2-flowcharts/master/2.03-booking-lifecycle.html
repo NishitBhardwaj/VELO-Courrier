@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.3 Booking Lifecycle Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #6366f1; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #818cf8; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #312e81; color: #a5b4fc; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { border-bottom-color: #6366f1; background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🧠 1. Core System Flows</div>
+        <h1>1.3 Booking Lifecycle Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application — End-to-End System View</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Customer Opens App]
+    B --> C[Select Service Type]
+    C --> D[Set Pickup & Drop Location]
+    D --> E[Choose Vehicle Type]
+    E --> F[Add Item Details / Helpers]
+    F --> G[System Calculates Fare]
+    G --> H[Show Fare Estimate to Customer]
+    H --> I{Customer Confirms?}
+    I -->|No| J[Modify Booking Details]
+    J --> D
+    I -->|Yes| K[Create Booking Record]
+
+    K --> L[Status: BOOKING_CREATED]
+    L --> M[Send to Dispatch Engine]
+    M --> N[Search Nearby Available Drivers]
+    N --> O{Drivers Found?}
+    O -->|No| P[Expand Search Radius]
+    P --> Q{Max Radius Reached?}
+    Q -->|No| N
+    Q -->|Yes| R[Notify Customer — No Drivers]
+    R --> S{Customer Wants to Wait?}
+    S -->|No| T[Cancel Booking]
+    T --> U[Status: CANCELLED]
+    U --> V([🔴 END — Cancelled]):::endNode
+    S -->|Yes| N
+
+    O -->|Yes| W[Send Request to Best Match Driver]
+    W --> X[Status: DRIVER_REQUESTED]
+    X --> Y{Driver Responds?}
+    Y -->|Timeout| Z[Try Next Driver]
+    Z --> O
+    Y -->|Rejected| Z
+    Y -->|Accepted| AA[Status: DRIVER_ASSIGNED]
+
+    AA --> AB[Notify Customer — Driver Details]
+    AB --> AC[Driver Navigates to Pickup]
+    AC --> AD[Status: EN_ROUTE_TO_PICKUP]
+    AD --> AE[Driver Arrives at Pickup]
+    AE --> AF[Status: ARRIVED_AT_PICKUP]
+    AF --> AG[Verify Goods & Load]
+    AG --> AH{Customer Confirms Pickup?}
+    AH -->|No| AI[Resolve Dispute]
+    AI --> AJ{Resolved?}
+    AJ -->|Cancel| T
+    AJ -->|Continue| AG
+    AH -->|Yes| AK[Status: GOODS_PICKED_UP]
+
+    AK --> AL[Driver Starts Trip]
+    AL --> AM[Status: IN_TRANSIT]
+    AM --> AN[Live Tracking Active]
+    AN --> AO[Driver Reaches Drop Location]
+    AO --> AP[Status: ARRIVED_AT_DROP]
+    AP --> AQ[Deliver Goods]
+    AQ --> AR{Delivery Confirmed?}
+    AR -->|OTP Verified| AS[Status: DELIVERED]
+    AR -->|Issue| AT[Report Delivery Issue]
+    AT --> AU[Admin Intervention]
+    AU --> AS
+
+    AS --> AV[Trigger Payment Processing]
+    AV --> AW[Generate Invoice]
+    AW --> AX[Status: COMPLETED]
+    AX --> AY[Prompt for Rating]
+    AY --> AZ[Status: RATED]
+    AZ --> BA[Archive Booking Record]
+    BA --> BB([🔴 END — Complete]):::endNode
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            themeVariables: { primaryColor: '#6366f1', primaryTextColor: '#f1f5f9', primaryBorderColor: '#818cf8', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' }
+        });
+    </script>
+</body>
+</html>

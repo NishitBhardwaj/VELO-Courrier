@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.3 Single Booking Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #8b5cf6; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #a78bfa; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #4c1d95; color: #c4b5fd; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🏢 4. Business Dashboard Flows</div>
+        <h1>4.3 Single Booking Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Open New Booking Form]
+    B --> C{Pickup Location}
+    C -->|Saved Hub| D[Select from Saved Pickup Hubs]
+    C -->|New Address| E[Enter New Pickup Address]
+    D --> F[Pickup Set]
+    E --> F
+
+    F --> G[Enter Drop Location]
+    G --> H[Enter Receiver Details]
+    H --> I["Receiver: Name, Phone,<br/>Address Notes"]
+
+    I --> J{Service Type?}
+    J -->|Standard Delivery| K[Standard Vehicle Selection]
+    J -->|Express Delivery| L[Express — Priority Matching]
+    J -->|Courier| M[Small Package Options]
+    J -->|Heavy Transport| N[Truck / Tempo Options]
+
+    K --> O[Select Vehicle]
+    L --> O
+    M --> O
+    N --> O
+
+    O --> P[Enter Package Details]
+    P --> Q["Weight, Dimensions,<br/>Content Description,<br/>Special Instructions"]
+
+    Q --> R[System Calculates Fare]
+    R --> S{Business Discount Applied?}
+    S -->|Yes| T[Show Discounted Rate]
+    S -->|No| U[Show Standard Rate]
+    T --> V[Display Fare Breakdown]
+    U --> V
+
+    V --> W{Payment Source?}
+    W -->|Business Wallet| X[Deduct from Wallet]
+    W -->|Credit Line| Y[Charge to Credit Account]
+    W -->|Department Budget| Z[Tag to Department]
+
+    X --> AA[Confirm Booking]
+    Y --> AA
+    Z --> AA
+
+    AA --> AB[Create Booking with Business Tag]
+    AB --> AC[Assign Reference/PO Number]
+    AC --> AD[Send to Dispatch Engine]
+    AD --> AE[Notify Assigned Team Member]
+    AE --> AF[Show Booking in Dashboard]
+    AF --> AG[Enable Live Tracking]
+    AG --> AH([🔴 END — Booking Active]):::endNode
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#8b5cf6', primaryTextColor: '#f1f5f9', primaryBorderColor: '#a78bfa', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

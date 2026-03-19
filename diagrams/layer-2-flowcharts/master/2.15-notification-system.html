@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.6 Notification System Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #6366f1; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #818cf8; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #312e81; color: #a5b4fc; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { border-bottom-color: #6366f1; background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🧠 1. Core System Flows</div>
+        <h1>1.6 Notification System Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START — Event Triggered]):::startNode --> B{Event Type?}
+
+    B -->|Booking Created| C[Generate Booking Notification]
+    B -->|Driver Assigned| D[Generate Assignment Notification]
+    B -->|Trip Status Change| E[Generate Status Notification]
+    B -->|Payment Event| F[Generate Payment Notification]
+    B -->|System Alert| G[Generate System Notification]
+    B -->|Promo/Marketing| H[Generate Marketing Notification]
+
+    C --> I[Determine Recipients]
+    D --> I
+    E --> I
+    F --> I
+    G --> I
+    H --> I
+
+    I --> J{Recipient Type?}
+    J -->|Customer| K[Load Customer Preferences]
+    J -->|Driver| L[Load Driver Preferences]
+    J -->|Admin| M[Load Admin Preferences]
+    J -->|Business User| N[Load Business Preferences]
+
+    K --> O[Select Notification Channels]
+    L --> O
+    M --> O
+    N --> O
+
+    O --> P{Channel Selection}
+
+    P -->|Push Notification| Q[Firebase Cloud Messaging]
+    P -->|SMS| R[SMS Gateway API]
+    P -->|Email| S[Email Service - SMTP]
+    P -->|In-App| T[WebSocket Real-time Message]
+    P -->|WhatsApp| U[WhatsApp Business API]
+
+    Q --> V[Format Push Payload]
+    V --> W[Send to Device Token]
+    W --> X{Delivery Status?}
+
+    R --> Y[Format SMS Template]
+    Y --> Z[Send via SMS Provider]
+    Z --> X
+
+    S --> AA[Format Email Template]
+    AA --> AB[Send via Email Service]
+    AB --> X
+
+    T --> AC[Push to WebSocket Channel]
+    AC --> X
+
+    U --> AD[Format WhatsApp Template]
+    AD --> AE[Send via WhatsApp API]
+    AE --> X
+
+    X -->|Delivered| AF[Log: Delivered]
+    X -->|Failed| AG[Log: Failed]
+    AG --> AH{Retry Allowed?}
+    AH -->|Yes - Retry Count < 3| AI[Queue for Retry]
+    AI --> AJ[Wait Backoff Period]
+    AJ --> O
+    AH -->|No - Max Retries| AK[Log Permanent Failure]
+    AK --> AL[Alert Admin if Critical]
+
+    AF --> AM[Store in Notification History]
+    AL --> AM
+    AM --> AN[Update Read/Unread Status]
+    AN --> AO([🔴 END]):::endNode
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            themeVariables: { primaryColor: '#6366f1', primaryTextColor: '#f1f5f9', primaryBorderColor: '#818cf8', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.6 Trip Execution Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🚚 3. Driver App Flows</div>
+        <h1>3.6 Trip Execution Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START — Job Accepted]):::startNode --> B[Navigate to Pickup Point]
+    B --> C[GPS Tracking Active]
+    C --> D[Arrive at Pickup Location]
+    D --> E[Tap: Arrived at Pickup]
+    E --> F[Notify Customer: Driver Arrived]
+
+    F --> G[Wait for Customer]
+    G --> H{Customer Appears?}
+    H -->|Yes| I[Verify Goods with Customer]
+    H -->|No — Waiting| J[Start Wait Timer]
+    J --> K{Wait Time > 10 min?}
+    K -->|No| G
+    K -->|Yes| L[Option: Cancel or Call Customer]
+    L --> M{Action?}
+    M -->|Call Customer| N[In-App Call]
+    N --> G
+    M -->|Cancel Trip| O[Cancel with Reason]
+    O --> P[Charge Waiting Fee if Applicable]
+    P --> Q([🔴 END — Trip Cancelled]):::endNode
+
+    I --> R{Goods Match Description?}
+    R -->|Yes| S[Load Goods into Vehicle]
+    R -->|No| T[Report Discrepancy]
+    T --> U{Proceed Anyway?}
+    U -->|Yes| S
+    U -->|No| V[Cancel with Documentation]
+    V --> Q
+
+    S --> W[Take Photo Proof of Loading]
+    W --> X[Tap: Goods Picked Up]
+    X --> Y[Status: IN_TRANSIT]
+    Y --> Z[Start Trip to Drop Location]
+
+    Z --> AA[Follow Navigation Route]
+    AA --> AB[GPS Broadcasts Position]
+    AB --> AC[Customer Sees Live Tracking]
+    AC --> AD{Arrived at Drop?}
+    AD -->|No| AA
+    AD -->|Yes| AE[Tap: Arrived at Drop]
+
+    AE --> AF[Contact Receiver]
+    AF --> AG[Unload Goods]
+    AG --> AH{Delivery Verification?}
+    AH -->|OTP from Receiver| AI[Enter OTP Code]
+    AI --> AJ{OTP Correct?}
+    AJ -->|Yes| AK[Delivery Confirmed]
+    AJ -->|No| AL[Retry OTP]
+    AL --> AI
+    AH -->|Signature| AM[Get Digital Signature]
+    AM --> AK
+    AH -->|Photo Proof| AN[Take Delivery Photo]
+    AN --> AK
+
+    AK --> AO[Tap: Trip Completed]
+    AO --> AP[Status: DELIVERED]
+    AP --> AQ[Trigger Payment]
+    AQ --> AR[Show Trip Summary]
+    AR --> AS["Summary: Distance, Duration,<br/>Earnings, Rating Prompt"]
+    AS --> AT([🔴 END — Trip Complete]):::endNode
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

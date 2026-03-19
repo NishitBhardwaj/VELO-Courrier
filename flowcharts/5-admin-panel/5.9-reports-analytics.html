@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.9 Reports & Analytics Flow — VELO Courrier</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}.header{background:linear-gradient(135deg,#1e293b,#0f172a);border-bottom:2px solid #ef4444;padding:24px 40px}.header .category{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#f87171;margin-bottom:4px}.header h1{font-size:24px;font-weight:700;color:#f1f5f9}.header .subtitle{font-size:13px;color:#94a3b8;margin-top:4px}.badge{display:inline-block;background:#7f1d1d;color:#fca5a5;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;margin-left:12px;vertical-align:middle}.chart-container{display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;min-height:calc(100vh - 100px)}.mermaid{background:#1e293b;border-radius:12px;padding:32px;border:1px solid #334155;box-shadow:0 4px 24px rgba(0,0,0,.3);max-width:95vw;overflow-x:auto}@media print{body{background:#fff;color:#111}.header{background:#f8fafc}.header h1,.header .category,.header .subtitle{color:#111}.mermaid{background:#fff;border-color:#ddd}}</style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🛠️ 5. Admin Panel Flows</div>
+        <h1>5.9 Reports & Analytics Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Open Admin Reports Dashboard]
+    B --> C{Report Category?}
+
+    C -->|Operations Report| D["Metrics:<br/>Total Bookings, Completion Rate,<br/>Avg Delivery Time, Cancellation Rate"]
+    D --> E[Show Trend Charts]
+    E --> F[City-wise Breakdown]
+
+    C -->|Financial Report| G["Metrics:<br/>Total Revenue, Commission Earned,<br/>Refunds Issued, Driver Payouts"]
+    G --> H[Show Revenue Chart by Period]
+    H --> I[Payment Method Distribution]
+
+    C -->|Driver Performance| J["Metrics:<br/>Active Drivers, Utilization Rate,<br/>Avg Rating, Top Performers"]
+    J --> K[Show Driver Leaderboard]
+    K --> L[Identify Low Performers]
+
+    C -->|Customer Analytics| M["Metrics:<br/>New Signups, Active Users,<br/>Retention Rate, Avg Order Value"]
+    M --> N[Customer Cohort Analysis]
+    N --> O[Churn Risk Users]
+
+    C -->|Service Analytics| P["Per-Service Breakdown:<br/>Instant, Courier, Packers, Enterprise"]
+    P --> Q[Show Popular Routes]
+    Q --> R[Peak Hours Analysis]
+
+    C -->|Custom Report Builder| S[Select Metrics & Dimensions]
+    S --> T[Configure Filters & Date Range]
+    T --> U[Generate Custom Report]
+
+    F --> V{Export or Schedule?}
+    I --> V
+    L --> V
+    O --> V
+    R --> V
+    U --> V
+
+    V -->|Download| W[Export as PDF / Excel / CSV]
+    V -->|Email| X[Send Report via Email]
+    V -->|Schedule| Y{Frequency?}
+    Y -->|Daily| Z[Auto-Generate Daily]
+    Y -->|Weekly| AA[Auto-Generate Weekly]
+    Y -->|Monthly| AB[Auto-Generate Monthly]
+    V -->|Dashboard Pin| AC[Pin to Admin Dashboard]
+
+    W --> AD([🔴 END]):::endNode
+    X --> AD
+    Z --> AD
+    AA --> AD
+    AB --> AD
+    AC --> AD
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true,theme:'dark',flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis'},themeVariables:{primaryColor:'#ef4444',primaryTextColor:'#f1f5f9',primaryBorderColor:'#f87171',lineColor:'#94a3b8',secondaryColor:'#1e293b',tertiaryColor:'#334155',fontSize:'14px'}});</script>
+</body>
+</html>

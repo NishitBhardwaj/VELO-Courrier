@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.01 System Use Case Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border-bottom: 2px solid #8b5cf6; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #a78bfa; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #4c1d95; color: #c4b5fd; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟣 Layer 3 — UML / Use Cases</div>
+        <h1>3.01 System Use Case Diagram <span class="badge">UML</span></h1>
+        <div class="subtitle">VELO Courrier — All Actors and System Capabilities</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart LR
+    subgraph ACTORS["👥 Actors"]
+        direction TB
+        CUST["👤 Customer"]
+        DRV["🚚 Driver"]
+        BIZ["🏢 Business User"]
+        ADM["🛠️ Admin"]
+        SYS["⚙️ System"]
+        EXT["🔗 External Services"]
+    end
+
+    subgraph PLATFORM["🚛 VELO Courrier Platform"]
+        direction TB
+
+        subgraph AUTH["Authentication"]
+            UC1["Register Account"]
+            UC2["Login via OTP/Email"]
+            UC3["Social Login"]
+            UC4["Reset Password"]
+            UC5["Manage Profile"]
+        end
+
+        subgraph BOOKING["Booking Management"]
+            UC6["Create Booking"]
+            UC7["Select Service Type"]
+            UC8["Choose Vehicle"]
+            UC9["Get Fare Estimate"]
+            UC10["Confirm & Pay"]
+            UC11["Schedule Future Booking"]
+            UC12["Cancel Booking"]
+            UC13["Track Delivery Live"]
+        end
+
+        subgraph DRIVER_OPS["Driver Operations"]
+            UC14["Submit KYC Documents"]
+            UC15["Register Vehicle"]
+            UC16["Toggle Availability"]
+            UC17["Accept/Reject Job"]
+            UC18["Navigate to Pickup"]
+            UC19["Execute Trip"]
+            UC20["Confirm Delivery"]
+            UC21["View Earnings"]
+            UC22["Withdraw to Bank"]
+        end
+
+        subgraph BUSINESS_OPS["Business Operations"]
+            UC23["Manage Team Members"]
+            UC24["Bulk Upload Orders"]
+            UC25["Setup Recurring Routes"]
+            UC26["View Invoices"]
+            UC27["Download Reports"]
+            UC28["API Integration"]
+        end
+
+        subgraph ADMIN_OPS["Admin Operations"]
+            UC29["Approve/Reject Drivers"]
+            UC30["Manage Users"]
+            UC31["Monitor Bookings"]
+            UC32["Configure Pricing"]
+            UC33["Manage Promotions"]
+            UC34["Handle Disputes"]
+            UC35["Process Refunds"]
+            UC36["Generate Reports"]
+            UC37["Send Notifications"]
+        end
+
+        subgraph SYSTEM_OPS["System Processes"]
+            UC38["Match & Dispatch Driver"]
+            UC39["Calculate Dynamic Fare"]
+            UC40["Process Payment"]
+            UC41["Send Notifications"]
+            UC42["Broadcast GPS Location"]
+            UC43["Generate Invoice"]
+        end
+    end
+
+    CUST --> UC1
+    CUST --> UC2
+    CUST --> UC3
+    CUST --> UC5
+    CUST --> UC6
+    CUST --> UC7
+    CUST --> UC9
+    CUST --> UC10
+    CUST --> UC11
+    CUST --> UC12
+    CUST --> UC13
+
+    DRV --> UC1
+    DRV --> UC14
+    DRV --> UC15
+    DRV --> UC16
+    DRV --> UC17
+    DRV --> UC18
+    DRV --> UC19
+    DRV --> UC20
+    DRV --> UC21
+    DRV --> UC22
+
+    BIZ --> UC1
+    BIZ --> UC23
+    BIZ --> UC24
+    BIZ --> UC25
+    BIZ --> UC26
+    BIZ --> UC27
+    BIZ --> UC28
+
+    ADM --> UC29
+    ADM --> UC30
+    ADM --> UC31
+    ADM --> UC32
+    ADM --> UC33
+    ADM --> UC34
+    ADM --> UC35
+    ADM --> UC36
+    ADM --> UC37
+
+    SYS --> UC38
+    SYS --> UC39
+    SYS --> UC40
+    SYS --> UC41
+    SYS --> UC42
+    SYS --> UC43
+
+    EXT --> UC40
+    EXT --> UC41
+    EXT --> UC42
+
+    classDef actorClass fill:#6d28d9,stroke:#8b5cf6,color:#fff,font-weight:bold
+    classDef ucClass fill:#1e293b,stroke:#475569,color:#e2e8f0
+
+    class CUST,DRV,BIZ,ADM,SYS,EXT actorClass
+    class UC1,UC2,UC3,UC4,UC5,UC6,UC7,UC8,UC9,UC10,UC11,UC12,UC13 ucClass
+    class UC14,UC15,UC16,UC17,UC18,UC19,UC20,UC21,UC22 ucClass
+    class UC23,UC24,UC25,UC26,UC27,UC28 ucClass
+    class UC29,UC30,UC31,UC32,UC33,UC34,UC35,UC36,UC37 ucClass
+    class UC38,UC39,UC40,UC41,UC42,UC43 ucClass
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#8b5cf6', primaryTextColor: '#f1f5f9', primaryBorderColor: '#a78bfa', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '12px' } });</script>
+</body>
+</html>

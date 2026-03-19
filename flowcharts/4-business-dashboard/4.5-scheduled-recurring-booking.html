@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.5 Scheduled/Recurring Booking Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #8b5cf6; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #a78bfa; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #4c1d95; color: #c4b5fd; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🏢 4. Business Dashboard Flows</div>
+        <h1>4.5 Scheduled/Recurring Booking Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Open Scheduled Bookings]
+    B --> C{Booking Type?}
+
+    C -->|One-Time Scheduled| D[Create Future Booking]
+    D --> E[Set Pickup & Drop]
+    E --> F[Set Date & Time]
+    F --> G[Select Vehicle & Service]
+    G --> H[Add Package Details]
+    H --> I[Calculate Estimated Fare]
+    I --> J[Confirm Scheduled Booking]
+    J --> K[Add to Schedule Queue]
+    K --> L[Set Reminder: 1 Hour Before]
+
+    C -->|Recurring Route| M[Create Recurring Route]
+    M --> N[Set Route: Pickup to Drop]
+    N --> O{Frequency?}
+    O -->|Daily| P[Select Days of Week]
+    O -->|Weekly| Q[Select Day & Time]
+    O -->|Custom| R[Set Custom Schedule]
+    P --> S[Set Pickup Time for Each Day]
+    Q --> S
+    R --> S
+
+    S --> T[Set Start Date]
+    T --> U[Set End Date or Until Cancelled]
+    U --> V[Select Vehicle Type]
+    V --> W[Calculate Per-Trip Fare]
+    W --> X{Recurring Discount?}
+    X -->|Yes| Y[Apply Recurring Rate]
+    X -->|No| Z[Standard Rate]
+    Y --> AA[Show Total Estimated Cost]
+    Z --> AA
+
+    AA --> AB[Confirm Recurring Schedule]
+    AB --> AC[Create Schedule Template]
+    AC --> AD[System Auto-Creates Bookings]
+
+    L --> AE{At Scheduled Time}
+    AD --> AE
+
+    AE --> AF[Auto-Dispatch 30 Min Before]
+    AF --> AG[Find Available Driver]
+    AG --> AH{Driver Found?}
+    AH -->|Yes| AI[Assign & Notify]
+    AI --> AJ[Booking Proceeds Normally]
+    AH -->|No| AK[Notify Business: No Driver]
+    AK --> AL{Reschedule or Cancel?}
+    AL -->|Reschedule| AM[Set New Time]
+    AM --> AE
+    AL -->|Cancel Instance| AN[Skip This Occurrence]
+
+    C -->|Manage Existing| AO[View Scheduled/Recurring List]
+    AO --> AP{Action?}
+    AP -->|Edit| AQ[Modify Schedule Details]
+    AQ --> AC
+    AP -->|Pause| AR[Pause Recurring Route]
+    AR --> AS[No New Bookings Until Resumed]
+    AP -->|Cancel| AT[Cancel Schedule]
+    AT --> AU{Cancel Future Only?}
+    AU -->|Yes| AV[Cancel Remaining Occurrences]
+    AU -->|All| AW[Cancel Entire Schedule]
+
+    AJ --> AX([🔴 END]):::endNode
+    AN --> AX
+    AS --> AX
+    AV --> AX
+    AW --> AX
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#8b5cf6', primaryTextColor: '#f1f5f9', primaryBorderColor: '#a78bfa', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

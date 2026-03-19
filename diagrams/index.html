@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELO Courrier — Complete 80+ Diagram Package</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .hero { background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #1e293b 100%); padding: 48px 40px 36px; text-align: center; border-bottom: 2px solid #6366f1; }
+        .hero h1 { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .hero p { color: #94a3b8; font-size: 15px; }
+        .hero .badge-row { margin-top: 16px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .hero .stat { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px 20px; text-align: center; }
+        .hero .stat .num { font-size: 24px; font-weight: 700; color: #a78bfa; }
+        .hero .stat .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 24px; }
+        .section { margin-bottom: 60px; }
+        .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #334155; }
+        .section-header .icon { font-size: 24px; }
+        .section-header h2 { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+        .section-header .count { background: #334155; color: #94a3b8; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; transition: all 0.2s ease; cursor: pointer; text-decoration: none; color: inherit; display: block; position: relative; }
+        .card:hover { border-color: #6366f1; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.15); }
+        .card .number { font-size: 11px; color: #64748b; font-weight: 700; margin-bottom: 4px; }
+        .card .title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 8px; }
+        .card .desc { font-size: 12px; color: #94a3b8; line-height: 1.4; }
+        .card .badge { display: inline-block; margin-top: 10px; background: #312e81; color: #a5b4fc; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+        
+        .l1 .card:hover { border-color: #06b6d4; }
+        .l1 .badge { background: #164e63; color: #67e8f9; }
+        .l2 .card:hover { border-color: #10b981; }
+        .l2 .badge { background: #064e3b; color: #6ee7b7; }
+        .l3 .card:hover { border-color: #8b5cf6; }
+        .l3 .badge { background: #4c1d95; color: #c4b5fd; }
+        .l4 .card:hover { border-color: #f59e0b; }
+        .l4 .badge { background: #78350f; color: #fcd34d; }
+
+        .sub-category { grid-column: 1 / -1; margin-top: 24px; margin-bottom: 12px; font-size: 14px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; border-left: 3px solid #334155; padding-left: 12px; }
+
+        footer { text-align: center; padding: 40px; color: #475569; font-size: 13px; border-top: 1px solid #1e293b; background: #0f172a; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>VELO Courrier — Complete Design Package</h1>
+        <p>Comprehensive 80+ Diagram collection covering Architecture, Workflows, UML, and UI Navigation</p>
+        <div class="badge-row">
+            <div class="stat"><div class="num">10</div><div class="label">SDE Layers</div></div>
+            <div class="stat"><div class="num">46</div><div class="label">Flowcharts</div></div>
+            <div class="stat"><div class="num">20</div><div class="label">UML Diagrams</div></div>
+            <div class="stat"><div class="num">4</div><div class="label">Nav Maps</div></div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- LAYER 1: SDE -->
+        <div class="section l1">
+            <div class="section-header">
+                <span class="icon">🔷</span>
+                <h2>Layer 1 — SDE / System Design</h2>
+                <span class="count">10 Diagrams</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="layer-1-sde/1.01-system-overview.html">
+                    <div class="number">1.01</div>
+                    <div class="title">System Overview Diagram</div>
+                    <div class="desc">High-level view of all clients and core backend components.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.02-architecture.html">
+                    <div class="number">1.02</div>
+                    <div class="title">High-Level Architecture</div>
+                    <div class="desc">Tier-based system breakdown.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.03-module-breakdown.html">
+                    <div class="number">1.03</div>
+                    <div class="title">Module Breakdown</div>
+                    <div class="desc">Logical service separation.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.04-microservice-vs-monolith.html">
+                    <div class="number">1.04</div>
+                    <div class="title">Microservice Plan</div>
+                    <div class="desc">Decision matrix and evolution strategy.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.05-er-diagram.html">
+                    <div class="number">1.05</div>
+                    <div class="title">Database ER Diagram</div>
+                    <div class="desc">Data entities and relationships.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.06-api-interaction.html">
+                    <div class="number">1.06</div>
+                    <div class="title">API Interaction</div>
+                    <div class="desc">Service-to-service communication.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.07-external-integration.html">
+                    <div class="number">1.07</div>
+                    <div class="title">External Integration</div>
+                    <div class="desc">Third-party API ecosystem.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.08-deployment.html">
+                    <div class="number">1.08</div>
+                    <div class="title">Cloud Infrastructure</div>
+                    <div class="desc">AWS physical topology.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.09-security-access-control.html">
+                    <div class="number">1.09</div>
+                    <div class="title">Security & Access</div>
+                    <div class="desc">Auth layers and data protection.</div>
+                    <span class="badge">SDE</span>
+                </a>
+                <a class="card" href="layer-1-sde/1.10-cicd-flow.html">
+                    <div class="number">1.10</div>
+                    <div class="title">CI/CD Pipeline</div>
+                    <div class="desc">Release and environment flow.</div>
+                    <span class="badge">SDE</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- LAYER 2: FLOWCHARTS -->
+        <div class="section l2">
+            <div class="section-header">
+                <span class="icon">🟢</span>
+                <h2>Layer 2 — Workflow Flowcharts</h2>
+                <span class="count">46 Diagrams</span>
+            </div>
+            <div class="grid">
+                <div class="sub-category">Master Platform Flows</div>
+                <a class="card" href="layer-2-flowcharts/master/2.01-end-to-end-platform.html"><div class="number">2.01</div><div class="title">End-to-End Workflow</div><div class="desc">Complete lifecycle.</div><span class="badge">MASTER</span></a>
+                <a class="card" href="layer-2-flowcharts/master/2.02-registration-login.html"><div class="number">2.02</div><div class="title">Auth & Role Routing</div><div class="desc">Multi-user auth.</div><span class="badge">MASTER</span></a>
+                <a class="card" href="layer-2-flowcharts/master/2.03-booking-lifecycle.html"><div class="number">2.03</div><div class="title">Booking Lifecycle</div><div class="desc">Core states.</div><span class="badge">MASTER</span></a>
+                <a class="card" href="layer-2-flowcharts/master/2.04-driver-dispatch.html"><div class="number">2.04</div><div class="title">Dispatch & Matching</div><div class="desc">Algorithm flow.</div><span class="badge">MASTER</span></a>
+                <a class="card" href="layer-2-flowcharts/master/2.05-payment.html"><div class="number">2.05</div><div class="title">Payment Processing</div><div class="desc">Checkout & Split.</div><span class="badge">MASTER</span></a>
+                <a class="card" href="layer-2-flowcharts/master/2.14-auth-role-routing.html"><div class="number">2.14</div><div class="title">Auth Routing Detail</div><div class="desc">Deep auth logic.</div><span class="badge">MASTER</span></a>
+                <a class="card" href="layer-2-flowcharts/master/2.15-notification-system.html"><div class="number">2.15</div><div class="title">Notification Flow</div><div class="desc">Push/SMS/Email trigger.</div><span class="badge">MASTER</span></a>
+
+                <div class="sub-category">Service-Specific Flows</div>
+                <a class="card" href="layer-2-flowcharts/service-specific/2.10-instant-goods-transport.html"><div class="number">2.10</div><div class="title">Instant Goods</div><div class="desc">Real-time trucking.</div><span class="badge">SERVICE</span></a>
+                <a class="card" href="layer-2-flowcharts/service-specific/2.11-packers-movers.html"><div class="number">2.11</div><div class="title">Packers & Movers</div><div class="desc">Inventory & Move.</div><span class="badge">SERVICE</span></a>
+                <a class="card" href="layer-2-flowcharts/service-specific/2.12-courier-delivery.html"><div class="number">2.12</div><div class="title">Courier Service</div><div class="desc">Small package flow.</div><span class="badge">SERVICE</span></a>
+                <a class="card" href="layer-2-flowcharts/service-specific/2.13-enterprise-logistics.html"><div class="number">2.13</div><div class="title">Enterprise B2B</div><div class="desc">Bulk & Scheduled.</div><span class="badge">SERVICE</span></a>
+
+                <div class="sub-category">Customer App Flows</div>
+                <a class="card" href="layer-2-flowcharts/customer/2.06-customer-booking.html"><div class="number">2.06</div><div class="title">Customer Booking</div><div class="desc">Order creation.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.16-customer-signup-login.html"><div class="number">2.16</div><div class="title">Customer Onboarding</div><div class="desc">Signup lifecycle.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.17-profile-address-mgmt.html"><div class="number">2.17</div><div class="title">Profile & Address</div><div class="desc">Data management.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.18-service-selection.html"><div class="number">2.18</div><div class="title">Service Choice</div><div class="desc">Category selection.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.19-fare-estimation.html"><div class="number">2.19</div><div class="title">Fare Estimation</div><div class="desc">Pricing preview.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.20-booking-confirmation.html"><div class="number">2.20</div><div class="title">Order Confirm</div><div class="desc">Checkout flow.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.21-live-tracking.html"><div class="number">2.21</div><div class="title">Live Tracking</div><div class="desc">GPS monitoring.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.22-payment-customer.html"><div class="number">2.22</div><div class="title">Customer Pay</div><div class="desc">Txn lifecycle.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.23-rating-review.html"><div class="number">2.23</div><div class="title">Rating & Review</div><div class="desc">Feedback loop.</div><span class="badge">CUSTOMER</span></a>
+                <a class="card" href="layer-2-flowcharts/customer/2.24-support-complaint.html"><div class="number">2.24</div><div class="title">Support Ticket</div><div class="desc">Issue resolution.</div><span class="badge">CUSTOMER</span></a>
+
+                <div class="sub-category">Driver App Flows</div>
+                <a class="card" href="layer-2-flowcharts/driver/2.07-driver-trip.html"><div class="number">2.07</div><div class="title">Driver Trip Logic</div><div class="desc">Pickup to Drop.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.25-driver-registration-kyc.html"><div class="number">2.25</div><div class="title">Driver KYC</div><div class="desc">Onboarding queue.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.26-vehicle-registration.html"><div class="number">2.26</div><div class="title">Vehicle Add</div><div class="desc">Asset registration.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.27-availability-toggle.html"><div class="number">2.27</div><div class="title">Online/Offline</div><div class="desc">Shift mgmt.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.28-booking-request-handling.html"><div class="number">2.28</div><div class="title">Job Offer Logic</div><div class="desc">Request queue.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.29-accept-reject-job.html"><div class="number">2.29</div><div class="title">Accept/Reject</div><div class="desc">Decision flow.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.30-navigation-status-update.html"><div class="number">2.30</div><div class="title">GPS & Navigation</div><div class="desc">Live updates.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.31-earnings-wallet.html"><div class="number">2.31</div><div class="title">Earnings Hub</div><div class="desc">Wallet settlement.</div><span class="badge">DRIVER</span></a>
+                <a class="card" href="layer-2-flowcharts/driver/2.32-driver-support.html"><div class="number">2.32</div><div class="title">Partner Help</div><div class="desc">Driver support.</div><span class="badge">DRIVER</span></a>
+
+                <div class="sub-category">Business Dashboard Flows</div>
+                <a class="card" href="layer-2-flowcharts/business/2.08-business-bulk-booking.html"><div class="number">2.08</div><div class="title">Business Bulk</div><div class="desc">CSV operations.</div><span class="badge">BUSINESS</span></a>
+                <a class="card" href="layer-2-flowcharts/business/2.33-business-registration.html"><div class="number">2.33</div><div class="title">Business Signup</div><div class="desc">Org onboarding.</div><span class="badge">BUSINESS</span></a>
+                <a class="card" href="layer-2-flowcharts/business/2.34-team-user-mgmt.html"><div class="number">2.34</div><div class="title">Team Control</div><div class="desc">User permissions.</div><span class="badge">BUSINESS</span></a>
+                <a class="card" href="layer-2-flowcharts/business/2.35-single-booking.html"><div class="number">2.35</div><div class="title">Manual Booking</div><div class="desc">Single order tool.</div><span class="badge">BUSINESS</span></a>
+                <a class="card" href="layer-2-flowcharts/business/2.36-scheduled-recurring-booking.html"><div class="number">2.36</div><div class="title">Auto-Logistics</div><div class="desc">Recurring routes.</div><span class="badge">BUSINESS</span></a>
+                <a class="card" href="layer-2-flowcharts/business/2.37-invoice-billing.html"><div class="number">2.37</div><div class="title">Invoice Center</div><div class="desc">GST billing.</div><span class="badge">BUSINESS</span></a>
+                <a class="card" href="layer-2-flowcharts/business/2.38-reports-analytics.html"><div class="number">2.38</div><div class="title">Org Analytics</div><div class="desc">Performance data.</div><span class="badge">BUSINESS</span></a>
+
+                <div class="sub-category">Admin Panel Flows</div>
+                <a class="card" href="layer-2-flowcharts/admin/2.09-admin-booking-monitor.html"><div class="number">2.09</div><div class="title">Global Monitor</div><div class="desc">Live ops view.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.39-admin-login.html"><div class="number">2.39</div><div class="title">Admin Auth</div><div class="desc">2FA Secure login.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.40-user-management.html"><div class="number">2.40</div><div class="title">User DB Mgmt</div><div class="desc">Search & Control.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.41-driver-approval.html"><div class="number">2.41</div><div class="title">KYC Review</div><div class="desc">Approval queue.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.42-vehicle-category-mgmt.html"><div class="number">2.42</div><div class="title">Asset Config</div><div class="desc">Vehicle tiers.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.43-pricing-engine.html"><div class="number">2.43</div><div class="title">Fare Engine</div><div class="desc">Pricing config.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.44-promo-discount-mgmt.html"><div class="number">2.44</div><div class="title">Promo Mgmt</div><div class="desc">Marketing tools.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.45-dispute-refund.html"><div class="number">2.45</div><div class="title">Resolution Hub</div><div class="desc">Refunding logic.</div><span class="badge">ADMIN</span></a>
+                <a class="card" href="layer-2-flowcharts/admin/2.46-reports-analytics.html"><div class="number">2.46</div><div class="title">Platform Stats</div><div class="desc">Revenue metrics.</div><span class="badge">ADMIN</span></a>
+            </div>
+        </div>
+
+        <!-- LAYER 3: UML -->
+        <div class="section l3">
+            <div class="section-header">
+                <span class="icon">🟣</span>
+                <h2>Layer 3 — UML Design Patterns</h2>
+                <span class="count">20 Diagrams</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="layer-3-uml/use-cases/3.01-system-use-case.html"><div class="number">3.01</div><div class="title">System Use Case</div><div class="desc">Whole system.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/use-cases/3.02-customer-use-case.html"><div class="number">3.02</div><div class="title">Customer Use Case</div><div class="desc">End-user actions.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/use-cases/3.03-driver-use-case.html"><div class="number">3.03</div><div class="title">Driver Use Case</div><div class="desc">Partner actions.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/use-cases/3.04-business-use-case.html"><div class="number">3.04</div><div class="title">Business Use Case</div><div class="desc">Enterprise actions.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/use-cases/3.05-admin-use-case.html"><div class="number">3.05</div><div class="title">Admin Use Case</div><div class="desc">Ops actions.</div><span class="badge">UML</span></a>
+                
+                <a class="card" href="layer-3-uml/sequence/3.06-booking-sequence.html"><div class="number">3.06</div><div class="title">Booking Sequence</div><div class="desc">Msg flow logic.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/sequence/3.07-driver-dispatch-sequence.html"><div class="number">3.07</div><div class="title">Dispatch Sequence</div><div class="desc">Matching flow.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/sequence/3.08-payment-sequence.html"><div class="number">3.08</div><div class="title">Payment Sequence</div><div class="desc">Txn lifecycle.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/sequence/3.09-tracking-sequence.html"><div class="number">3.09</div><div class="title">Tracking Sequence</div><div class="desc">GPS broadcast.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/sequence/3.10-refund-dispute-sequence.html"><div class="number">3.10</div><div class="title">Refund Sequence</div><div class="desc">Resolution flow.</div><span class="badge">UML</span></a>
+
+                <a class="card" href="layer-3-uml/activity/3.11-customer-activity.html"><div class="number">3.11</div><div class="title">Customer Activity</div><div class="desc">Decision logic.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/activity/3.12-driver-activity.html"><div class="number">3.12</div><div class="title">Driver Activity</div><div class="desc">Partner flow.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/activity/3.13-business-activity.html"><div class="number">3.13</div><div class="title">Business Activity</div><div class="desc">Enterprise logic.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/activity/3.14-admin-activity.html"><div class="number">3.14</div><div class="title">Admin Activity</div><div class="desc">Ops logic.</div><span class="badge">UML</span></a>
+
+                <a class="card" href="layer-3-uml/structural/3.15-class-diagram.html"><div class="number">3.15</div><div class="title">Class Diagram</div><div class="desc">Data modeling.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/structural/3.16-component-diagram.html"><div class="number">3.16</div><div class="title">Component Diagram</div><div class="desc">Software modules.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/structural/3.17-deployment-uml.html"><div class="number">3.17</div><div class="title">Deployment Diagram</div><div class="desc">Node topology.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/state-machines/3.18-booking-state-machine.html"><div class="number">3.18</div><div class="title">Booking States</div><div class="desc">Lifecycle status.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/state-machines/3.19-driver-state.html"><div class="number">3.19</div><div class="title">Driver Status</div><div class="desc">Availability.</div><span class="badge">UML</span></a>
+                <a class="card" href="layer-3-uml/structural/3.20-package-diagram.html"><div class="number">3.20</div><div class="title">Package Diagram</div><div class="desc">Code structure.</div><span class="badge">UML</span></a>
+            </div>
+        </div>
+
+        <!-- LAYER 4: NAVIGATION -->
+        <div class="section l4">
+            <div class="section-header">
+                <span class="icon">🟠</span>
+                <h2>Layer 4 — UI Navigation Maps</h2>
+                <span class="count">4 Diagrams</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="layer-4-navigation/4.1-customer-nav.html"><div class="number">4.1</div><div class="title">Customer App Nav</div><div class="desc">End-user screens.</div><span class="badge">NAV</span></a>
+                <a class="card" href="layer-4-navigation/4.2-driver-nav.html"><div class="number">4.2</div><div class="title">Driver App Nav</div><div class="desc">Partner screens.</div><span class="badge">NAV</span></a>
+                <a class="card" href="layer-4-navigation/4.3-business-nav.html"><div class="number">4.3</div><div class="title">Business Dashboard Nav</div><div class="desc">Enterprise screens.</div><span class="badge">NAV</span></a>
+                <a class="card" href="layer-4-navigation/4.4-admin-nav.html"><div class="number">4.4</div><div class="title">Admin Panel Nav</div><div class="desc">Ops Hub screens.</div><span class="badge">NAV</span></a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        VELO Courrier — High-Level Design & Systems Architecture Toolkit (Final 80-Diagram Set)
+    </footer>
+</body>
+</html>

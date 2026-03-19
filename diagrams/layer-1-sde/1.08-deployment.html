@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.08 Deployment / Cloud Infrastructure — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #0c1929 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.08 Deployment / Cloud Infrastructure Diagram <span class="badge">SDE</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TB
+    subgraph USERS_LAYER["👥 End Users"]
+        direction LR
+        U1["Mobile Users<br/>Android · iOS"]
+        U2["Web Users<br/>Browser"]
+    end
+
+    subgraph CDN_LAYER["🌍 CDN & DNS"]
+        direction LR
+        CF["CloudFront CDN<br/>Static Assets · Images"]
+        R53["Route 53<br/>DNS Management"]
+    end
+
+    subgraph EDGE["🛡️ Edge / Security"]
+        direction LR
+        WAF["AWS WAF<br/>Web Application Firewall"]
+        DDOS["DDoS Protection<br/>AWS Shield"]
+    end
+
+    subgraph LB_LAYER["⚖️ Load Balancing"]
+        ALB["Application Load Balancer<br/>SSL Termination · Path Routing"]
+    end
+
+    subgraph COMPUTE["🖥️ Compute — EKS Kubernetes Cluster"]
+        direction LR
+        subgraph NG1["Node Group 1 — API"]
+            POD1["Auth Pods x3"]
+            POD2["Booking Pods x3"]
+            POD3["User Pods x2"]
+        end
+        subgraph NG2["Node Group 2 — Real-time"]
+            POD4["Tracking Pods x3"]
+            POD5["WebSocket Pods x4"]
+            POD6["Dispatch Pods x2"]
+        end
+        subgraph NG3["Node Group 3 — Support"]
+            POD7["Payment Pods x2"]
+            POD8["Notification Pods x3"]
+            POD9["Pricing Pods x2"]
+        end
+    end
+
+    subgraph DATA_LAYER["🗄️ Managed Data Services"]
+        direction LR
+        RDS["Amazon RDS<br/>PostgreSQL<br/>Multi-AZ · Read Replicas"]
+        EC["Amazon ElastiCache<br/>Redis Cluster<br/>Sessions · Queues"]
+        S3B["Amazon S3<br/>Documents · KYC<br/>Invoices · Photos"]
+        OSS["OpenSearch<br/>Logs · Analytics<br/>Full-text Search"]
+    end
+
+    subgraph MESSAGING["📨 Messaging"]
+        direction LR
+        SQS["Amazon SQS<br/>Job Queues"]
+        SNS["Amazon SNS<br/>Push Notifications"]
+        SES["Amazon SES<br/>Transactional Email"]
+    end
+
+    subgraph MONITORING["📊 Monitoring & Logging"]
+        direction LR
+        CW["CloudWatch<br/>Metrics · Alarms"]
+        XR["X-Ray<br/>Distributed Tracing"]
+        GF["Grafana<br/>Dashboards"]
+    end
+
+    subgraph CICD["🔄 CI/CD Pipeline"]
+        direction LR
+        GH["GitHub<br/>Source Code"]
+        GA["GitHub Actions<br/>Build · Test"]
+        ECR["ECR<br/>Container Registry"]
+        ARGO["ArgoCD<br/>K8s Deployment"]
+    end
+
+    U1 --> R53
+    U2 --> R53
+    R53 --> CF
+    R53 --> WAF
+    CF --> ALB
+    WAF --> ALB
+    DDOS --> ALB
+
+    ALB --> COMPUTE
+
+    POD1 --> RDS
+    POD2 --> RDS
+    POD3 --> RDS
+    POD7 --> RDS
+
+    POD1 --> EC
+    POD4 --> EC
+    POD5 --> EC
+    POD6 --> EC
+
+    POD3 --> S3B
+    POD2 --> OSS
+
+    POD8 --> SQS
+    POD8 --> SNS
+    POD8 --> SES
+    POD2 --> SQS
+
+    COMPUTE --> CW
+    COMPUTE --> XR
+    CW --> GF
+
+    GH --> GA
+    GA --> ECR
+    ECR --> ARGO
+    ARGO --> COMPUTE
+
+    classDef userClass fill:#6d28d9,stroke:#8b5cf6,color:#fff
+    classDef edgeClass fill:#0e7490,stroke:#06b6d4,color:#fff
+    classDef computeClass fill:#065f46,stroke:#10b981,color:#fff
+    classDef dataClass fill:#92400e,stroke:#f59e0b,color:#fff
+    classDef msgClass fill:#7c2d12,stroke:#ea580c,color:#fff
+    classDef monClass fill:#1e40af,stroke:#3b82f6,color:#fff
+    classDef cicdClass fill:#4c1d95,stroke:#8b5cf6,color:#fff
+
+    class U1,U2 userClass
+    class CF,R53,WAF,DDOS edgeClass
+    class ALB edgeClass
+    class POD1,POD2,POD3,POD4,POD5,POD6,POD7,POD8,POD9 computeClass
+    class RDS,EC,S3B,OSS dataClass
+    class SQS,SNS,SES msgClass
+    class CW,XR,GF monClass
+    class GH,GA,ECR,ARGO cicdClass
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '12px' } });</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.03 Driver Use Case Diagram — VELO Courrier</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}.header{background:linear-gradient(135deg,#1e1b4b,#0f172a);border-bottom:2px solid #8b5cf6;padding:24px 40px}.header .category{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:4px}.header h1{font-size:24px;font-weight:700;color:#f1f5f9}.header .subtitle{font-size:13px;color:#94a3b8;margin-top:4px}.badge{display:inline-block;background:#4c1d95;color:#c4b5fd;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;margin-left:12px;vertical-align:middle}.chart-container{display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;min-height:calc(100vh - 100px)}.mermaid{background:#1e293b;border-radius:12px;padding:32px;border:1px solid #334155;box-shadow:0 4px 24px rgba(0,0,0,.3);max-width:95vw;overflow-x:auto}@media print{body{background:#fff;color:#111}.header{background:#f8fafc}.header h1,.header .category,.header .subtitle{color:#111}.mermaid{background:#fff;border-color:#ddd}}</style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟣 Layer 3 — UML / Use Cases</div>
+        <h1>3.03 Driver Use Case Diagram <span class="badge">UML</span></h1>
+        <div class="subtitle">VELO Courrier — Driver/Partner Actor Interactions</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart LR
+    DRV["🚚 Driver"]
+
+    subgraph ONBOARD["Onboarding"]
+        A1["Register as Driver"]
+        A2["Submit KYC Documents"]
+        A3["Upload Aadhaar/PAN/License"]
+        A4["Upload Profile Photo"]
+        A5["Register Vehicle"]
+        A6["Upload Vehicle Documents"]
+        A7["Upload Vehicle Photos"]
+    end
+
+    subgraph DAILY["Daily Operations"]
+        B1["Go Online"]
+        B2["Go Offline"]
+        B3["View Heatmap"]
+        B4["Receive Booking Request"]
+        B5["View Job Details"]
+        B6["Accept Job"]
+        B7["Reject Job with Reason"]
+        B8["Navigate to Pickup"]
+        B9["Confirm Arrival at Pickup"]
+    end
+
+    subgraph TRIP["Trip Execution"]
+        C1["Verify Goods with Customer"]
+        C2["Take Photo of Goods"]
+        C3["Start Trip"]
+        C4["Follow Navigation"]
+        C5["Update Status"]
+        C6["Arrive at Drop"]
+        C7["Deliver Goods"]
+        C8["Collect OTP/Signature"]
+        C9["Complete Trip"]
+        C10["Report Issue During Trip"]
+    end
+
+    subgraph MONEY["Earnings & Finance"]
+        D1["View Daily Earnings"]
+        D2["View Trip-wise Breakdown"]
+        D3["Check Wallet Balance"]
+        D4["Withdraw to Bank"]
+        D5["View Payout History"]
+        D6["Settle Cash Collections"]
+        D7["View Incentives/Bonuses"]
+    end
+
+    subgraph SUPPORT_D["Support"]
+        E1["View FAQ"]
+        E2["Report Trip Issue"]
+        E3["Appeal Suspension"]
+        E4["Update Expired Documents"]
+        E5["Contact Support"]
+        E6["View Ratings Received"]
+    end
+
+    DRV --> A1
+    DRV --> A2
+    DRV --> A5
+    DRV --> B1
+    DRV --> B2
+    DRV --> B3
+    DRV --> B4
+    DRV --> B6
+    DRV --> B7
+    DRV --> B8
+
+    DRV --> C1
+    DRV --> C3
+    DRV --> C7
+    DRV --> C9
+    DRV --> C10
+
+    DRV --> D1
+    DRV --> D3
+    DRV --> D4
+    DRV --> D6
+
+    DRV --> E1
+    DRV --> E2
+    DRV --> E3
+    DRV --> E6
+
+    A2 -.->|includes| A3
+    A2 -.->|includes| A4
+    A5 -.->|includes| A6
+    A5 -.->|includes| A7
+    B4 -.->|includes| B5
+    C7 -.->|includes| C8
+
+    classDef actorClass fill:#6d28d9,stroke:#8b5cf6,color:#fff,font-weight:bold
+    class DRV actorClass
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true,theme:'dark',flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis'},themeVariables:{primaryColor:'#8b5cf6',primaryTextColor:'#f1f5f9',primaryBorderColor:'#a78bfa',lineColor:'#94a3b8',secondaryColor:'#1e293b',tertiaryColor:'#334155',fontSize:'12px'}});</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.3 Driver Approval Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #ef4444; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #f87171; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #7f1d1d; color: #fca5a5; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🛠️ 5. Admin Panel Flows</div>
+        <h1>5.3 Driver Approval Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Open Driver Approvals Queue]
+    B --> C["Show Pending Applications<br/>Sorted by Submit Date"]
+    C --> D[Select Driver Application]
+
+    D --> E[View Driver Profile]
+    E --> F["Details: Name, Phone, City,<br/>Vehicle Type, Experience"]
+
+    F --> G[Review KYC Documents]
+    G --> H["Check:<br/>1. Aadhaar Card<br/>2. PAN Card<br/>3. Driving License<br/>4. Profile Photo"]
+
+    H --> I{Each Document Valid?}
+    I -->|Aadhaar| J{Aadhaar OK?}
+    J -->|Clear & Valid| K[Mark Aadhaar: Verified]
+    J -->|Blurry/Expired| L[Mark Aadhaar: Rejected]
+
+    I -->|License| M{License OK?}
+    M -->|Valid & Active| N[Mark License: Verified]
+    M -->|Expired/Invalid| O[Mark License: Rejected]
+
+    I -->|PAN| P{PAN OK?}
+    P -->|Valid| Q[Mark PAN: Verified]
+    P -->|Invalid| R[Mark PAN: Rejected]
+
+    K --> S{All Documents Verified?}
+    N --> S
+    Q --> S
+    L --> S
+    O --> S
+    R --> S
+
+    S -->|All Clear| T[Review Vehicle Documents]
+    T --> U["Check: RC, Insurance,<br/>Fitness Cert, Vehicle Photos"]
+    U --> V{Vehicle Docs Valid?}
+    V -->|Yes| W[Approve Driver]
+    W --> X[Status: APPROVED]
+    X --> Y[Add to Active Driver Pool]
+    Y --> Z[Notify Driver: Welcome!]
+    Z --> AA[Log: Approval Action]
+    AA --> AB([🔴 END — Approved]):::endNode
+
+    V -->|Partial Issues| AC[Request Resubmission]
+    AC --> AD["Specify: Which Docs to Fix"]
+    AD --> AE[Notify Driver: Fix Documents]
+    AE --> AF([🔴 END — Pending Resubmission]):::endNode
+
+    S -->|Some Rejected| AG{Rejection Severity?}
+    AG -->|Fixable — Blurry Photo| AC
+    AG -->|Serious — Fake/Forged| AH[Reject Application]
+    AH --> AI[Status: REJECTED]
+    AI --> AJ[Notify Driver: Rejected]
+    AJ --> AK[Log: Rejection with Reason]
+    AK --> AL{Flag for Fraud?}
+    AL -->|Yes| AM[Add to Fraud Watchlist]
+    AL -->|No| AN([🔴 END — Rejected]):::endNode
+    AM --> AN
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#ef4444', primaryTextColor: '#f1f5f9', primaryBorderColor: '#f87171', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.2 Driver App Navigation Map — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #451a03 0%, #0f172a 100%); border-bottom: 2px solid #f59e0b; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #fbbf24; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #78350f; color: #fcd34d; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟠 Layer 4 — UI Navigation Maps</div>
+        <h1>4.2 Driver App Navigation Map <span class="badge">UI</span></h1>
+        <div class="subtitle">Partner App workflow and screen flow</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    SPLASH[Splash Screen] --> AUTH{Auth?}
+    
+    AUTH -->|No| REG[Driver Registration]
+    REG --> KYC[KYC Document Upload]
+    KYC --> VH_REG[Vehicle Registration]
+    VH_REG --> ADM_PEND[Awaiting Approval Screen]
+    ADM_PEND --> HOME[Dashboard / Home]
+    
+    AUTH -->|Yes| HOME
+
+    HOME --> TOGGLE[Online/Offline Toggle]
+    
+    subgraph APP_TABS["Driver Navigation"]
+        HOME
+        EARN[Earnings]
+        TRIPS[Trip History]
+        PROFILE[Partner Profile]
+    end
+
+    HOME --> REQ_OVL[New Job Request Overlay]
+    REQ_OVL -->|Accept| TRIP_ACTV[Active Trip Screen]
+    REQ_OVL -->|Reject/Timeout| HOME
+
+    TRIP_ACTV --> NAV[GPS Navigation View]
+    TRIP_ACTV --> UPD_PICK[At Pickup Action]
+    UPD_PICK --> LOAD[Goods Verification / Photo]
+    LOAD --> UPD_TRAN[Start Transit]
+    UPD_TRAN --> UPD_DROP[At Drop Action]
+    UPD_DROP --> DELIV[Delivery Proof / OTP]
+    DELIV --> TRIP_SUMM[Trip Summary / Earnings]
+    TRIP_SUMM --> HOME
+
+    EARN --> WALL[Wallet / Payout History]
+    EARN --> BANK[Bank Details / Withdrawal]
+    EARN --> STATS[Performace Metrics]
+
+    PROFILE --> DOCUMENTS[Managed Documents]
+    PROFILE --> VH_INFO[Vehicle Details]
+    PROFILE --> SUPPORT[Driver Hotline / Help]
+
+    style TRIP_ACTV fill:#065f46,stroke:#10b981,color:#fff
+    style REQ_OVL fill:#7f1d1d,stroke:#ef4444,color:#fff
+    style EARN fill:#1e40af,stroke:#3b82f6,color:#fff
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#f59e0b', primaryTextColor: '#f1f5f9', primaryBorderColor: '#fbbf24', lineColor: '#94a3b8' } });</script>
+</body>
+</html>

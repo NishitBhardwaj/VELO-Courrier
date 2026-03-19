@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.13 Enterprise Logistics Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟢 Layer 2 — Service-Specific Flows</div>
+        <h1>2.13 Enterprise Logistics Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Business Bulk Shipment, API & Recurring Logistics</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B{Enterprise Entry Point?}
+
+    B -->|Dashboard| C[Business Dashboard Login]
+    B -->|API| D["REST API Integration<br/>API Key Authentication"]
+    B -->|Webhook Trigger| E["Webhook: Auto-Create<br/>on External Event"]
+
+    C --> F{Shipment Type?}
+    D --> F
+    E --> F
+
+    F -->|Single Shipment| G[Create Single Order]
+    F -->|Bulk Upload| H["Upload CSV / Excel<br/>100-10000 Orders"]
+    F -->|Recurring Route| I["Setup Daily/Weekly Route"]
+    F -->|API Batch| J["API: POST /bookings/batch"]
+
+    G --> K[Enter Shipment Details]
+    K --> L["From: Warehouse Hub<br/>To: Client Address<br/>Items: SKU, Qty, Weight"]
+
+    H --> M[Parse & Validate File]
+    M --> N{Validation}
+    N -->|Valid| O[Preview All Orders]
+    N -->|Errors| P[Download Error Report]
+    P --> Q[Fix & Re-upload]
+    Q --> M
+
+    I --> R[Define Route Template]
+    R --> S["Set: Origin Hub, Destinations,<br/>Frequency, Time Slot,<br/>Vehicle Type, SLA"]
+    S --> T[System Auto-Generates Daily Orders]
+
+    J --> U["API Response: Batch ID<br/>Track via GET /batches/id"]
+
+    L --> V{Enterprise Pricing?}
+    O --> V
+    T --> V
+    U --> V
+
+    V --> W["Contract Rate Applied<br/>Volume Discount Tier:<br/>100+ orders: 10% off<br/>500+ orders: 20% off<br/>1000+ orders: 30% off"]
+
+    W --> X{Payment Mode?}
+    X -->|Prepaid Wallet| Y[Deduct from Business Wallet]
+    X -->|Monthly Invoice| Z["Charge to Credit Line<br/>Net-30 Payment Terms"]
+    X -->|PO-Based| AA["Attach Purchase Order<br/>Invoice Against PO"]
+
+    Y --> AB[Confirm All Orders]
+    Z --> AB
+    AA --> AB
+
+    AB --> AC["Bulk Dispatch Engine"]
+    AC --> AD["Optimize Routes:<br/>Cluster Nearby Drops<br/>Assign to Fewest Vehicles"]
+    AD --> AE["Assign Drivers in Batches"]
+    AE --> AF["All Drivers Notified"]
+
+    AF --> AG["📊 Live Tracking Dashboard"]
+    AG --> AH["Monitor All Shipments:<br/>🟢 Picked Up: 45<br/>🔵 In Transit: 120<br/>🟡 At Drop: 30<br/>✅ Delivered: 200<br/>🔴 Failed: 5"]
+
+    AH --> AI{Failed Deliveries?}
+    AI -->|Yes| AJ["Auto-Schedule Reattempt<br/>Next Day Same Slot"]
+    AI -->|No| AK[All Delivered]
+
+    AJ --> AK
+
+    AK --> AL["Generate Delivery Report"]
+    AL --> AM["Report: Success Rate,<br/>SLA Compliance, Avg Time,<br/>Cost per Delivery"]
+
+    AM --> AN{Billing Cycle}
+    AN -->|Weekly| AO["Weekly Settlement"]
+    AN -->|Monthly| AP["Monthly GST Invoice"]
+    AN -->|Per-Batch| AQ["Batch Invoice"]
+
+    AO --> AR["Send to Finance Team"]
+    AP --> AR
+    AQ --> AR
+    AR --> AS["Download: PDF + Excel"]
+
+    AS --> AT{Webhook Callbacks?}
+    AT -->|Yes| AU["POST Webhooks:<br/>on_pickup, on_deliver,<br/>on_fail, on_complete"]
+    AT -->|No| AV[Manual Check]
+
+    AU --> AW([🔴 END — Enterprise Cycle]):::endNode
+    AV --> AW
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '13px' } });</script>
+</body>
+</html>

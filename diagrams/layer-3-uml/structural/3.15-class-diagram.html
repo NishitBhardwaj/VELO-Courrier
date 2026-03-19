@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.15 Class Diagram — VELO Courrier</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}.header{background:linear-gradient(135deg,#1e1b4b,#0f172a);border-bottom:2px solid #8b5cf6;padding:24px 40px}.header .category{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:4px}.header h1{font-size:24px;font-weight:700;color:#f1f5f9}.header .subtitle{font-size:13px;color:#94a3b8;margin-top:4px}.badge{display:inline-block;background:#4c1d95;color:#c4b5fd;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;margin-left:12px;vertical-align:middle}.chart-container{display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;min-height:calc(100vh - 100px)}.mermaid{background:#1e293b;border-radius:12px;padding:32px;border:1px solid #334155;box-shadow:0 4px 24px rgba(0,0,0,.3);max-width:95vw;overflow-x:auto}@media print{body{background:#fff;color:#111}.header{background:#f8fafc}.header h1,.header .category,.header .subtitle{color:#111}.mermaid{background:#fff;border-color:#ddd}}</style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟣 Layer 3 — UML / Structural</div>
+        <h1>3.15 Class Diagram <span class="badge">UML</span></h1>
+        <div class="subtitle">VELO Courrier — Core Domain Model</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+classDiagram
+    class User {
+        +UUID id
+        +String name
+        +String email
+        +String phone
+        +String passwordHash
+        +UserRole role
+        +UserStatus status
+        +String profilePhotoUrl
+        +DateTime createdAt
+        +register()
+        +login()
+        +updateProfile()
+        +deactivate()
+    }
+
+    class Customer {
+        +List~Address~ savedAddresses
+        +List~PaymentMethod~ paymentMethods
+        +Wallet wallet
+        +createBooking()
+        +trackDelivery()
+        +rateDriver()
+        +getHistory()
+    }
+
+    class Driver {
+        +KycStatus kycStatus
+        +String licenseNumber
+        +Float ratingAvg
+        +Int totalTrips
+        +Boolean isOnline
+        +Point currentLocation
+        +DateTime lastActive
+        +submitKYC()
+        +toggleAvailability()
+        +acceptJob()
+        +rejectJob()
+        +startTrip()
+        +completeTrip()
+    }
+
+    class BusinessUser {
+        +BusinessAccount businessAccount
+        +String designation
+        +TeamRole teamRole
+        +createBulkBooking()
+        +viewReports()
+        +manageTeam()
+    }
+
+    class Admin {
+        +AdminRole adminRole
+        +Boolean has2FA
+        +approveDriver()
+        +manageUsers()
+        +configurePricing()
+        +handleDispute()
+        +generateReports()
+    }
+
+    class Vehicle {
+        +UUID id
+        +String registrationNumber
+        +String makeModel
+        +Int year
+        +String color
+        +Float maxWeightKg
+        +VehicleStatus status
+        +VehicleCategory category
+        +registerVehicle()
+        +updateDocuments()
+    }
+
+    class VehicleCategory {
+        +Int id
+        +String name
+        +String description
+        +Float maxWeight
+        +Float maxVolume
+        +Boolean isActive
+    }
+
+    class Booking {
+        +UUID id
+        +BookingStatus status
+        +ServiceType serviceType
+        +Address pickup
+        +Address drop
+        +Float distanceKm
+        +Float estimatedFare
+        +Float finalFare
+        +String packageDescription
+        +Float packageWeight
+        +Boolean isScheduled
+        +DateTime scheduledAt
+        +DateTime createdAt
+        +DateTime completedAt
+        +create()
+        +confirm()
+        +assignDriver()
+        +startTrip()
+        +completeDelivery()
+        +cancel()
+        +calculateFare()
+    }
+
+    class Payment {
+        +UUID id
+        +Float amount
+        +Float taxAmount
+        +Float discountAmount
+        +Float finalAmount
+        +PaymentMethod method
+        +PaymentStatus status
+        +String gatewayTxnId
+        +process()
+        +refund()
+        +generateReceipt()
+    }
+
+    class Wallet {
+        +UUID id
+        +Float balance
+        +WalletType type
+        +credit()
+        +debit()
+        +getTransactions()
+    }
+
+    class Rating {
+        +UUID id
+        +Int stars
+        +String reviewText
+        +List~String~ tags
+        +submit()
+    }
+
+    class Address {
+        +UUID id
+        +String label
+        +String addressLine
+        +String city
+        +Float latitude
+        +Float longitude
+        +Boolean isDefault
+    }
+
+    class SupportTicket {
+        +UUID id
+        +TicketCategory category
+        +TicketPriority priority
+        +TicketStatus status
+        +String subject
+        +String description
+        +create()
+        +assignAgent()
+        +resolve()
+        +close()
+    }
+
+    class BusinessAccount {
+        +UUID id
+        +String companyName
+        +String gstNumber
+        +BillingType billingType
+        +Float creditLimit
+        +Float creditUsed
+        +AccountStatus status
+    }
+
+    class Invoice {
+        +UUID id
+        +String invoiceNumber
+        +Float totalAmount
+        +Float taxAmount
+        +InvoiceStatus status
+        +generate()
+        +sendEmail()
+        +markPaid()
+    }
+
+    class PricingRule {
+        +Int id
+        +Float baseFare
+        +Float minFare
+        +Float perKmRate
+        +Float perMinRate
+        +Float surgeMultiplierMax
+        +Float platformCommissionPct
+        +calculateFare()
+        +applySurge()
+    }
+
+    class Coupon {
+        +UUID id
+        +String code
+        +DiscountType discountType
+        +Float discountValue
+        +Float maxDiscount
+        +Int totalUsesAllowed
+        +Int timesUsed
+        +Boolean isActive
+        +validate()
+        +apply()
+    }
+
+    class Notification {
+        +UUID id
+        +String title
+        +String body
+        +NotificationChannel channel
+        +NotificationStatus status
+        +send()
+        +markRead()
+    }
+
+    User <|-- Customer : inherits
+    User <|-- Driver : inherits
+    User <|-- BusinessUser : inherits
+    User <|-- Admin : inherits
+
+    Customer "1" --> "*" Address : has
+    Customer "1" --> "1" Wallet : has
+    Customer "1" --> "*" Booking : creates
+
+    Driver "1" --> "*" Vehicle : owns
+    Driver "1" --> "*" Booking : assigned to
+    Driver "1" --> "1" Wallet : has
+
+    Vehicle "*" --> "1" VehicleCategory : belongs to
+
+    Booking "1" --> "1" Payment : has
+    Booking "1" --> "0..1" Rating : has
+    Booking "*" --> "0..1" Coupon : uses
+    Booking "1" --> "*" Notification : triggers
+
+    BusinessUser "*" --> "1" BusinessAccount : belongs to
+    BusinessAccount "1" --> "*" Invoice : has
+    BusinessAccount "1" --> "*" Booking : creates
+
+    PricingRule "*" --> "1" VehicleCategory : priced by
+
+    User "1" --> "*" SupportTicket : raises
+    Booking "1" --> "0..1" SupportTicket : related to
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true,theme:'dark',themeVariables:{primaryColor:'#8b5cf6',primaryTextColor:'#f1f5f9',primaryBorderColor:'#a78bfa',lineColor:'#94a3b8',classText:'#e2e8f0',fontSize:'12px'}});</script>
+</body>
+</html>

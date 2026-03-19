@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.10 Support/Complaint Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #f59e0b; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #fbbf24; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #78350f; color: #fde68a; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">👤 2. Customer App Flows</div>
+        <h1>2.10 Support/Complaint Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Open Help & Support Section]
+    B --> C{Support Type?}
+
+    C -->|FAQ / Self-Help| D[Show FAQ Categories]
+    D --> E[Search Knowledge Base]
+    E --> F{Found Answer?}
+    F -->|Yes| G[Display Solution]
+    G --> H{Issue Resolved?}
+    H -->|Yes| I([🔴 END — Self-Resolved]):::endNode
+    H -->|No| J[Escalate to Ticket]
+
+    C -->|Report Issue with Booking| K[Select Booking from History]
+    K --> L{Issue Category?}
+    L -->|Payment Issue| M[Payment-Related Complaint]
+    L -->|Driver Issue| N[Driver Behavior Complaint]
+    L -->|Damaged Goods| O[Goods Damage Report]
+    L -->|Wrong Delivery| P[Delivery Error Report]
+    L -->|Overcharged| Q[Fare Dispute]
+    L -->|Other| R[General Complaint]
+
+    M --> S[Enter Issue Details]
+    N --> S
+    O --> T[Upload Photo Evidence]
+    T --> S
+    P --> S
+    Q --> S
+    R --> S
+
+    S --> U[Add Text Description]
+    U --> J
+
+    C -->|Live Chat| V[Open Chat Window]
+    V --> W{Agent Available?}
+    W -->|Yes| X[Connect to Support Agent]
+    X --> Y[Real-Time Chat Session]
+    Y --> Z{Issue Resolved in Chat?}
+    Z -->|Yes| AA[Close Chat — Mark Resolved]
+    AA --> I
+    Z -->|No| AB[Agent Creates Ticket]
+    AB --> J
+    W -->|No| AC[Show Estimated Wait Time]
+    AC --> AD{Wait or Create Ticket?}
+    AD -->|Wait| X
+    AD -->|Ticket| J
+
+    C -->|Call Support| AE[Show Support Phone Number]
+    AE --> AF[Initiate Call]
+    AF --> I
+
+    J --> AG[Create Support Ticket]
+    AG --> AH[Assign Ticket ID]
+    AH --> AI[Set Priority Level]
+    AI --> AJ{Priority?}
+    AJ -->|High - Active Trip| AK[Assign Immediately]
+    AJ -->|Medium| AL[Queue for Next Agent]
+    AJ -->|Low| AM[Standard Queue]
+
+    AK --> AN[Agent Reviews Ticket]
+    AL --> AN
+    AM --> AN
+
+    AN --> AO{Resolution?}
+    AO -->|Refund| AP[Process Refund]
+    AO -->|Apology + Credit| AQ[Add Credit to Wallet]
+    AO -->|Explanation| AR[Send Resolution Details]
+    AO -->|Escalate| AS[Escalate to Manager]
+    AS --> AN
+
+    AP --> AT[Notify Customer: Resolved]
+    AQ --> AT
+    AR --> AT
+    AT --> AU[Customer Confirms Resolution]
+    AU --> AV[Close Ticket]
+    AV --> AW([🔴 END — Ticket Closed]):::endNode
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#f59e0b', primaryTextColor: '#f1f5f9', primaryBorderColor: '#fbbf24', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

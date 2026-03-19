@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.5 Accept/Reject Job Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🚚 3. Driver App Flows</div>
+        <h1>3.5 Accept/Reject Job Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START — Request Received]):::startNode --> B[Display Job Card]
+    B --> C["Job Details:<br/>Pickup to Drop Distance,<br/>Estimated Fare, Item Type"]
+
+    C --> D{Driver Decision}
+
+    D -->|Accept Job| E[Tap Accept Button]
+    E --> F[Send Acceptance to Backend]
+    F --> G{Backend Response}
+    G -->|Confirmed| H[Job Assigned to Driver]
+    H --> I[Notify Customer: Driver Assigned]
+    I --> J["Show Customer Details:<br/>Name, Phone, Photo"]
+    J --> K[Show Pickup Location on Map]
+    K --> L[Calculate Route to Pickup]
+    L --> M[Display ETA to Pickup]
+    M --> N[Enable Start Navigation]
+    N --> O([🔴 END — Job Accepted]):::endNode
+
+    G -->|Conflict — Already Taken| P[Show: Job Unavailable]
+    P --> Q[Return to Available State]
+    Q --> R([🔴 END — Back to Waiting]):::endNode
+
+    D -->|Reject Job| S[Tap Reject Button]
+    S --> T[Show Rejection Form]
+    T --> U{Select Reason}
+    U -->|Distance Too Far| V[Log: Distance]
+    U -->|Fare Too Low| W[Log: Fare]
+    U -->|Personal Emergency| X[Log: Personal]
+    U -->|Vehicle Issue| Y[Log: Vehicle]
+    U -->|Area Not Preferred| Z[Log: Area]
+
+    V --> AA[Submit Rejection]
+    W --> AA
+    X --> AA
+    Y --> AA
+    Z --> AA
+
+    AA --> AB[Update Driver Rejection Stats]
+    AB --> AC{Rejection Rate Check}
+    AC -->|Below 30%| AD[No Penalty]
+    AD --> R
+    AC -->|30-50%| AE[Show Warning Notification]
+    AE --> R
+    AC -->|Above 50%| AF[Reduce Dispatch Priority]
+    AF --> AG[Show: Your Priority Reduced]
+    AG --> R
+
+    D -->|No Response| AH[30s Timer Expires]
+    AH --> AI[Auto-Reject]
+    AI --> AB
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

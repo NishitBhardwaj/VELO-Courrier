@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELO Courrier — All HLD Flowcharts Index</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .hero { background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #1e293b 100%); padding: 48px 40px 36px; text-align: center; border-bottom: 2px solid #6366f1; }
+        .hero h1 { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .hero p { color: #94a3b8; font-size: 15px; }
+        .hero .badge-row { margin-top: 16px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .hero .stat { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px 20px; text-align: center; }
+        .hero .stat .num { font-size: 24px; font-weight: 700; color: #a78bfa; }
+        .hero .stat .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+        .section { margin-bottom: 40px; }
+        .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #334155; }
+        .section-header .icon { font-size: 24px; }
+        .section-header h2 { font-size: 20px; font-weight: 700; }
+        .section-header .count { background: #334155; color: #94a3b8; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; transition: all 0.2s ease; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .card:hover { border-color: #6366f1; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.15); }
+        .card .number { font-size: 12px; color: #64748b; font-weight: 600; margin-bottom: 4px; }
+        .card .title { font-size: 16px; font-weight: 600; color: #f1f5f9; margin-bottom: 8px; }
+        .card .desc { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+        .card .badge { display: inline-block; margin-top: 10px; background: #312e81; color: #a5b4fc; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+
+        .section:nth-child(1) .card:hover { border-color: #6366f1; }
+        .section:nth-child(2) .card:hover { border-color: #f59e0b; }
+        .section:nth-child(3) .card:hover { border-color: #10b981; }
+        .section:nth-child(4) .card:hover { border-color: #8b5cf6; }
+        .section:nth-child(5) .card:hover { border-color: #ef4444; }
+
+        footer { text-align: center; padding: 24px; color: #475569; font-size: 12px; border-top: 1px solid #1e293b; }
+        @media print { body { background: #fff; color: #111; } .card { border-color: #ddd; } .card .title { color: #111; } .hero { background: #f1f5f9; } .hero h1 { -webkit-text-fill-color: #4f46e5; } }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } .hero h1 { font-size: 24px; } }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>VELO Courrier — HLD Flowcharts</h1>
+        <p>Cross-Platform Logistics Application — High-Level Design Flow Diagrams</p>
+        <div class="badge-row">
+            <div class="stat"><div class="num">42</div><div class="label">Total Charts</div></div>
+            <div class="stat"><div class="num">5</div><div class="label">Categories</div></div>
+            <div class="stat"><div class="num">HLD</div><div class="label">Design Level</div></div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- 1. Core System Flows -->
+        <div class="section">
+            <div class="section-header">
+                <span class="icon">🧠</span>
+                <h2>1. Core System Flows</h2>
+                <span class="count">6 Charts</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="1-core-system/1.1-user-registration-login.html">
+                    <div class="number">1.1</div>
+                    <div class="title">User Registration & Login Flow</div>
+                    <div class="desc">OTP, email, social login paths with role selection for Customer, Driver, and Business users.</div>
+                    <span class="badge">CORE SYSTEM</span>
+                </a>
+                <a class="card" href="1-core-system/1.2-auth-role-routing.html">
+                    <div class="number">1.2</div>
+                    <div class="title">Authentication & Role Routing Flow</div>
+                    <div class="desc">JWT token validation, refresh tokens, role-based dashboard routing, KYC gating, admin permission levels.</div>
+                    <span class="badge">CORE SYSTEM</span>
+                </a>
+                <a class="card" href="1-core-system/1.3-booking-lifecycle.html">
+                    <div class="number">1.3</div>
+                    <div class="title">Booking Lifecycle Flow</div>
+                    <div class="desc">End-to-end system view: service selection → driver match → pickup → transit → delivery → payment → rating.</div>
+                    <span class="badge">CORE SYSTEM</span>
+                </a>
+                <a class="card" href="1-core-system/1.4-driver-matching-dispatch.html">
+                    <div class="number">1.4</div>
+                    <div class="title">Driver Matching & Dispatch Flow</div>
+                    <div class="desc">Proximity scoring, vehicle matching, radius expansion, timeout handling, and driver assignment logic.</div>
+                    <span class="badge">CORE SYSTEM</span>
+                </a>
+                <a class="card" href="1-core-system/1.5-payment-processing.html">
+                    <div class="number">1.5</div>
+                    <div class="title">Payment Processing Flow</div>
+                    <div class="desc">Multi-method payments (UPI, card, wallet, COD), promo codes, commission split, GST invoicing.</div>
+                    <span class="badge">CORE SYSTEM</span>
+                </a>
+                <a class="card" href="1-core-system/1.6-notification-system.html">
+                    <div class="number">1.6</div>
+                    <div class="title">Notification System Flow</div>
+                    <div class="desc">Multi-channel delivery (Push, SMS, Email, WebSocket, WhatsApp), retry logic, preference-based routing.</div>
+                    <span class="badge">CORE SYSTEM</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 2. Customer App Flows -->
+        <div class="section">
+            <div class="section-header">
+                <span class="icon">👤</span>
+                <h2>2. Customer App Flows</h2>
+                <span class="count">10 Charts</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="2-customer-app/2.1-customer-signup-login.html">
+                    <div class="number">2.1</div>
+                    <div class="title">Customer Signup/Login Flow</div>
+                    <div class="desc">Onboarding, OTP signup, email login, Google OAuth, OTP retry limits and blocking.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.2-profile-address-mgmt.html">
+                    <div class="number">2.2</div>
+                    <div class="title">Profile & Address Management Flow</div>
+                    <div class="desc">Edit profile, manage saved addresses (map pin, GPS, manual), payment method management.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.3-service-selection.html">
+                    <div class="number">2.3</div>
+                    <div class="title">Service Selection Flow</div>
+                    <div class="desc">Choose from Instant Transport, Courier, Packers & Movers, Enterprise with area availability check.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.4-booking-creation.html">
+                    <div class="number">2.4</div>
+                    <div class="title">Booking Creation Flow</div>
+                    <div class="desc">Location selection, multi-stop, scheduling, item details, helpers, special requirements, promo codes.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.5-fare-estimation.html">
+                    <div class="number">2.5</div>
+                    <div class="title">Fare Estimation Flow</div>
+                    <div class="desc">Dynamic pricing with surge, extras, insurance, express, promo discounts, GST, and fare breakdown.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.6-booking-confirmation.html">
+                    <div class="number">2.6</div>
+                    <div class="title">Booking Confirmation Flow</div>
+                    <div class="desc">Payment method selection, pre-authorization, scheduled vs immediate, driver search animation.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.7-live-tracking.html">
+                    <div class="number">2.7</div>
+                    <div class="title">Live Tracking Flow</div>
+                    <div class="desc">WebSocket real-time map, GPS updates, phase-based tracking, ETA, pickup/delivery confirmation.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.8-payment-customer.html">
+                    <div class="number">2.8</div>
+                    <div class="title">Payment Flow — Customer Side</div>
+                    <div class="desc">UPI/Card/Wallet/Cash, split payment, retry, gateway processing, digital receipts.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.9-rating-review.html">
+                    <div class="number">2.9</div>
+                    <div class="title">Rating & Review Flow</div>
+                    <div class="desc">Star rating, issue categories, positive tags, photo evidence, tip option, auto-flagging low ratings.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+                <a class="card" href="2-customer-app/2.10-support-complaint.html">
+                    <div class="number">2.10</div>
+                    <div class="title">Support/Complaint Flow</div>
+                    <div class="desc">FAQ, ticket system, live chat, phone support, priority levels, resolution tracking.</div>
+                    <span class="badge">CUSTOMER APP</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 3. Driver App Flows -->
+        <div class="section">
+            <div class="section-header">
+                <span class="icon">🚚</span>
+                <h2>3. Driver App Flows</h2>
+                <span class="count">9 Charts</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="3-driver-app/3.1-driver-registration-kyc.html">
+                    <div class="number">3.1</div>
+                    <div class="title">Driver Registration & KYC Flow</div>
+                    <div class="desc">Personal details, OTP verification, Aadhaar/PAN/License upload, admin review and approval.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.2-vehicle-registration.html">
+                    <div class="number">3.2</div>
+                    <div class="title">Vehicle Registration Flow</div>
+                    <div class="desc">Vehicle category selection, details entry, RC/insurance/fitness upload, photos, admin approval.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.3-availability-toggle.html">
+                    <div class="number">3.3</div>
+                    <div class="title">Availability Toggle Flow</div>
+                    <div class="desc">Pre-flight checks (KYC, vehicle, docs, GPS), online/offline state, driver pool management.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.4-booking-request-handling.html">
+                    <div class="number">3.4</div>
+                    <div class="title">Booking Request Handling Flow</div>
+                    <div class="desc">Push notification, 30s countdown, accept/reject/timeout, rejection tracking and penalties.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.5-accept-reject-job.html">
+                    <div class="number">3.5</div>
+                    <div class="title">Accept/Reject Job Flow</div>
+                    <div class="desc">Decision flow, rejection reasons, acceptance confirmation, rejection rate monitoring with tiered penalties.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.6-trip-execution.html">
+                    <div class="number">3.6</div>
+                    <div class="title">Trip Execution Flow</div>
+                    <div class="desc">Full trip: navigate → pickup → verify goods → transit → drop → OTP delivery → completion.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.7-navigation-status-update.html">
+                    <div class="number">3.7</div>
+                    <div class="title">Navigation & Status Update Flow</div>
+                    <div class="desc">Turn-by-turn navigation, GPS broadcasting, phase-based status buttons, issue reporting.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.8-earnings-wallet.html">
+                    <div class="number">3.8</div>
+                    <div class="title">Earnings & Wallet Flow</div>
+                    <div class="desc">Earnings dashboard, wallet, bank withdrawal, cash settlement, payout schedule configuration.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+                <a class="card" href="3-driver-app/3.9-driver-support.html">
+                    <div class="number">3.9</div>
+                    <div class="title">Driver Support Flow</div>
+                    <div class="desc">Trip issues, account problems, vehicle docs, FAQ, emergency reports, support ticket system.</div>
+                    <span class="badge">DRIVER APP</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 4. Business Dashboard Flows -->
+        <div class="section">
+            <div class="section-header">
+                <span class="icon">🏢</span>
+                <h2>4. Business Dashboard Flows</h2>
+                <span class="count">7 Charts</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="4-business-dashboard/4.1-business-registration.html">
+                    <div class="number">4.1</div>
+                    <div class="title">Business Account Registration Flow</div>
+                    <div class="desc">Company details, GST docs, billing preferences (prepaid/credit/pay-per-use), admin approval.</div>
+                    <span class="badge">BUSINESS</span>
+                </a>
+                <a class="card" href="4-business-dashboard/4.2-team-user-mgmt.html">
+                    <div class="number">4.2</div>
+                    <div class="title">Team/User Management Flow</div>
+                    <div class="desc">Add/edit/remove members, role-based access (Admin/Manager/Dispatcher/Viewer), spending limits.</div>
+                    <span class="badge">BUSINESS</span>
+                </a>
+                <a class="card" href="4-business-dashboard/4.3-single-booking.html">
+                    <div class="number">4.3</div>
+                    <div class="title">Single Booking Flow</div>
+                    <div class="desc">Saved hubs, business discounts, credit line payment, department tagging, PO numbers.</div>
+                    <span class="badge">BUSINESS</span>
+                </a>
+                <a class="card" href="4-business-dashboard/4.4-bulk-booking.html">
+                    <div class="number">4.4</div>
+                    <div class="title">Bulk Booking Flow</div>
+                    <div class="desc">CSV upload, API integration, validation, bulk discounts, batch dispatch, tracking dashboard.</div>
+                    <span class="badge">BUSINESS</span>
+                </a>
+                <a class="card" href="4-business-dashboard/4.5-scheduled-recurring-booking.html">
+                    <div class="number">4.5</div>
+                    <div class="title">Scheduled/Recurring Booking Flow</div>
+                    <div class="desc">One-time scheduled, recurring routes (daily/weekly/custom), auto-dispatch, pause/cancel management.</div>
+                    <span class="badge">BUSINESS</span>
+                </a>
+                <a class="card" href="4-business-dashboard/4.6-invoice-billing.html">
+                    <div class="number">4.6</div>
+                    <div class="title">Invoice & Billing Flow</div>
+                    <div class="desc">Per-booking & monthly invoicing, GST support, credit line payments, overdue handling, exports.</div>
+                    <span class="badge">BUSINESS</span>
+                </a>
+                <a class="card" href="4-business-dashboard/4.7-reports-analytics.html">
+                    <div class="number">4.7</div>
+                    <div class="title">Reports & Analytics Flow</div>
+                    <div class="desc">Delivery, financial, route, team performance reports with scheduled email exports.</div>
+                    <span class="badge">BUSINESS</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 5. Admin Panel Flows -->
+        <div class="section">
+            <div class="section-header">
+                <span class="icon">🛠️</span>
+                <h2>5. Admin Panel Flows</h2>
+                <span class="count">10 Charts</span>
+            </div>
+            <div class="grid">
+                <a class="card" href="5-admin-panel/5.1-admin-login.html">
+                    <div class="number">5.1</div>
+                    <div class="title">Admin Login Flow</div>
+                    <div class="desc">Secure login with 2FA, account lockout, security alerts, role-based dashboard routing.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.2-user-management.html">
+                    <div class="number">5.2</div>
+                    <div class="title">User Management Flow</div>
+                    <div class="desc">Search, view profiles, suspend/reactivate, GDPR-compliant deletion, user data export.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.3-driver-approval.html">
+                    <div class="number">5.3</div>
+                    <div class="title">Driver Approval Flow</div>
+                    <div class="desc">Document-by-document KYC review, approve/reject/resubmit paths, fraud flagging.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.4-vehicle-category-mgmt.html">
+                    <div class="number">5.4</div>
+                    <div class="title">Vehicle Category Management Flow</div>
+                    <div class="desc">CRUD for vehicle categories, city-specific pricing, capacity settings, service assignment.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.5-booking-monitoring.html">
+                    <div class="number">5.5</div>
+                    <div class="title">Booking Monitoring Flow</div>
+                    <div class="desc">Live map view, real-time alerts, driver reassignment, fare override, escalation workflows.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.6-pricing-engine.html">
+                    <div class="number">5.6</div>
+                    <div class="title">Pricing Engine Flow</div>
+                    <div class="desc">Base fare, surge rules, service-specific pricing, commission, tax configuration, fare simulation.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.7-promo-discount-mgmt.html">
+                    <div class="number">5.7</div>
+                    <div class="title">Promo/Discount Management Flow</div>
+                    <div class="desc">Create promos (% off, flat, free delivery), usage limits, targeting, budget caps, analytics.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.8-dispute-refund.html">
+                    <div class="number">5.8</div>
+                    <div class="title">Dispute & Refund Flow</div>
+                    <div class="desc">Fare/damage/behavior/non-delivery disputes, evidence review, full/partial/wallet refund processing.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.9-reports-analytics.html">
+                    <div class="number">5.9</div>
+                    <div class="title">Reports & Analytics Flow</div>
+                    <div class="desc">Operations, financial, driver, customer, and service analytics with automated report scheduling.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+                <a class="card" href="5-admin-panel/5.10-notification-control.html">
+                    <div class="number">5.10</div>
+                    <div class="title">Notification Control Flow</div>
+                    <div class="desc">Push notification campaigns, templates, auto-notification config, targeting, scheduling, delivery analytics.</div>
+                    <span class="badge">ADMIN PANEL</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        VELO Courrier — High-Level Design Flowcharts • 42 Charts • Generated for Architecture Review & Team Sharing
+    </footer>
+</body>
+</html>

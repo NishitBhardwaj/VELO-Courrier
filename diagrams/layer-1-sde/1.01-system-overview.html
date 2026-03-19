@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.01 System Overview Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #0c1929 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.01 System Overview Diagram <span class="badge">SDE</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TB
+    subgraph CLIENTS["📱 Client Applications"]
+        direction LR
+        CA["Customer App<br/>Flutter — Android/iOS/Windows"]
+        DA["Driver App<br/>Flutter — Android/iOS"]
+        BD["Business Dashboard<br/>React/Angular — Web"]
+        AP["Admin Panel<br/>React/Angular — Web"]
+    end
+
+    subgraph GATEWAY["🌐 API Gateway Layer"]
+        direction LR
+        AG["API Gateway<br/>Rate Limiting · Auth · Routing"]
+        WSG["WebSocket Gateway<br/>Real-Time Events"]
+    end
+
+    subgraph SERVICES["⚙️ Backend Microservices"]
+        direction LR
+        AS["Auth Service<br/>JWT · OTP · OAuth"]
+        BS["Booking Service<br/>Lifecycle · Scheduling"]
+        DS["Dispatch Service<br/>Matching · Assignment"]
+        PS["Payment Service<br/>Processing · Refunds"]
+        TS["Tracking Service<br/>GPS · Location"]
+        NS["Notification Service<br/>Push · SMS · Email"]
+        PRS["Pricing Service<br/>Fare · Surge · Promo"]
+        US["User Service<br/>Profile · KYC · Docs"]
+    end
+
+    subgraph DATA["🗄️ Data Layer"]
+        direction LR
+        PG["PostgreSQL<br/>Primary Database"]
+        RD["Redis<br/>Cache · Sessions · Queues"]
+        S3["AWS S3<br/>Documents · Images"]
+        ES["Elasticsearch<br/>Search · Logs"]
+    end
+
+    subgraph EXTERNAL["🔗 External Integrations"]
+        direction LR
+        MAPS["Google Maps API<br/>Routes · Geocoding"]
+        PAY["Payment Gateway<br/>UPI · Card · Net Banking"]
+        SMS["SMS/OTP Provider<br/>Twilio · MSG91"]
+        FCM["Firebase FCM<br/>Push Notifications"]
+        EMAIL["Email Service<br/>SMTP · SendGrid"]
+        WA["WhatsApp API<br/>Business Messaging"]
+    end
+
+    CA --> AG
+    DA --> AG
+    BD --> AG
+    AP --> AG
+    CA -.-> WSG
+    DA -.-> WSG
+
+    AG --> AS
+    AG --> BS
+    AG --> DS
+    AG --> PS
+    AG --> TS
+    AG --> NS
+    AG --> PRS
+    AG --> US
+    WSG --> TS
+    WSG --> NS
+
+    AS --> PG
+    BS --> PG
+    DS --> PG
+    PS --> PG
+    US --> PG
+    PRS --> PG
+
+    AS --> RD
+    BS --> RD
+    DS --> RD
+    TS --> RD
+
+    US --> S3
+    BS --> ES
+
+    DS --> MAPS
+    TS --> MAPS
+    PS --> PAY
+    NS --> SMS
+    NS --> FCM
+    NS --> EMAIL
+    NS --> WA
+
+    classDef clientClass fill:#1e40af,stroke:#3b82f6,color:#fff
+    classDef gatewayClass fill:#0e7490,stroke:#06b6d4,color:#fff
+    classDef serviceClass fill:#065f46,stroke:#10b981,color:#fff
+    classDef dataClass fill:#92400e,stroke:#f59e0b,color:#fff
+    classDef externalClass fill:#7c2d12,stroke:#ea580c,color:#fff
+
+    class CA,DA,BD,AP clientClass
+    class AG,WSG gatewayClass
+    class AS,BS,DS,PS,TS,NS,PRS,US serviceClass
+    class PG,RD,S3,ES dataClass
+    class MAPS,PAY,SMS,FCM,EMAIL,WA externalClass
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '13px' } });</script>
+</body>
+</html>

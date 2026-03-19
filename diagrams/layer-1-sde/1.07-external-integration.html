@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.07 External Integration Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.07 External Integration Diagram <span class="badge">SDE</span></h1>
+        <div class="subtitle">Third-party Services & API Touchpoints</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+graph TD
+    subgraph VELO["VELO Core Platform"]
+        APP["Backend API"]
+        WEB["Admin/Biz Dashboard"]
+    end
+
+    subgraph MAPS["Maps & LBS"]
+        MD1["Google Maps Platform"]
+        MD2["Mapbox SDK"]
+        MD3["OSRM (Open Source Routing)"]
+    end
+
+    subgraph PAY["Payment Infrastructure"]
+        P1["Razorpay API (India)"]
+        P2["Stripe API (Global)"]
+        P3["PayPal SDK"]
+    end
+
+    subgraph NOTIF["Communication & Identity"]
+        N1["Firebase Cloud Messaging (Push)"]
+        N2["Twilio / SendGrid (SMS/Email)"]
+        N3["Auth0 / Firebase Auth"]
+    </div>
+
+    subgraph BIZ["Business Services"]
+        B1["QuickBooks / Zoho (Accounting)"]
+        B2["AWS S3 (Cloud Storage)"]
+        B3["Sentry (Error Monitoring)"]
+    end
+
+    APP -->|"Distance/ETA"| MD1
+    APP -->|"Static Maps/Search"| MD2
+    APP -->|"Routing Optimization"| MD3
+
+    APP -->|"Tokenized Payment"| P1
+    APP -->|"Payouts/Subscriptions"| P2
+    
+    APP -->|"Push Notifications"| N1
+    APP -->|"Transactional SMS/Email"| N2
+    WEB -->|"Social Login"| N3
+
+    APP -->|"Invoice Sync"| B1
+    APP -->|"Kyc Docs/Photos"| B2
+    APP & WEB -->|"Exception Logs"| B3
+
+    style VELO fill:#1e40af,stroke:#3b82f6,color:#fff
+    style MAPS,PAY,NOTIF,BIZ fill:#1e293b,stroke:#334155,color:#cbd5e1
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8' } });</script>
+</body>
+</html>

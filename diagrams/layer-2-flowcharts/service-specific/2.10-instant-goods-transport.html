@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.10 Instant Goods Transport Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟢 Layer 2 — Service-Specific Flows</div>
+        <h1>2.10 Instant Goods Transport Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Real-Time On-Demand Goods Movement</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Customer Opens App]
+    B --> C["Select: Instant Goods Transport"]
+    C --> D{What to Move?}
+    D -->|Small Items| E["🏍️ Two-Wheeler<br/>Up to 20 kg"]
+    D -->|Medium Items| F["🛺 Auto / Mini Truck<br/>Up to 500 kg"]
+    D -->|Large Items / Furniture| G["🚚 Tempo<br/>Up to 2000 kg"]
+    D -->|Heavy / Bulk| H["🚛 Full Truck<br/>2000+ kg"]
+
+    E --> I[Enter Pickup Location]
+    F --> I
+    G --> I
+    H --> I
+
+    I --> J{Location Method?}
+    J -->|GPS| K[Auto-detect via GPS]
+    J -->|Search| L[Search Address]
+    J -->|Map Pin| M[Drop Pin on Map]
+    J -->|Saved| N[Select from Saved]
+    K --> O[Pickup Set]
+    L --> O
+    M --> O
+    N --> O
+
+    O --> P[Enter Drop Location]
+    P --> Q{Multi-Stop?}
+    Q -->|No| R[Single Drop]
+    Q -->|Yes| S["Add Stops<br/>Up to 5 Intermediate"]
+    R --> T[Route Calculated]
+    S --> T
+
+    T --> U["Maps API: Distance & ETA"]
+    U --> V["Pricing Engine Calculates:<br/>Base Fare + Per-km + Per-min<br/>+ Vehicle Premium"]
+    V --> W{Surge Active?}
+    W -->|Yes| X["Apply Surge: 1.2x-2.5x<br/>Show: High Demand Notice"]
+    W -->|No| Y[Standard Rate]
+    X --> Z[Show Fare Estimate]
+    Y --> Z
+
+    Z --> AA["Enter: Item Description,<br/>Approx Weight, Special Instructions"]
+    AA --> AB{Need Helpers?}
+    AB -->|Yes| AC["Add Helpers: +₹100-200 each"]
+    AB -->|No| AD[Continue]
+    AC --> AD
+
+    AD --> AE{Confirm Booking?}
+    AE -->|No| AF[Edit / Cancel]
+    AF --> I
+    AE -->|Yes| AG[Select Payment Method]
+    AG --> AH["Create Booking: CONFIRMED"]
+
+    AH --> AI["⚡ Real-Time Dispatch Engine"]
+    AI --> AJ["Search: 3 km radius<br/>Filter: Online + Matching Vehicle"]
+    AJ --> AK["Score Drivers:<br/>Proximity 40% + Rating 30%<br/>+ Acceptance Rate 20%<br/>+ Vehicle Condition 10%"]
+    AK --> AL[Send to Top Driver]
+    AL --> AM{Response in 30s?}
+    AM -->|Accept| AN["🟢 Driver Assigned"]
+    AM -->|Reject/Timeout| AO[Expand Radius + Next Driver]
+    AO --> AP{Max Attempts?}
+    AP -->|No| AJ
+    AP -->|Yes| AQ["No Driver Available<br/>Retry or Schedule Later"]
+    AQ --> AR([🔴 END — No Driver]):::endNode
+
+    AN --> AS["Show Driver: Name, Photo,<br/>Vehicle, ETA, Rating"]
+    AS --> AT["📍 Live Tracking Begins<br/>GPS every 3 seconds via WebSocket"]
+    AT --> AU[Driver Navigates to Pickup]
+    AU --> AV["Arrive → Load Goods<br/>Photo Proof"]
+    AV --> AW["Start Trip → IN_TRANSIT"]
+    AW --> AX["Real-Time Map + ETA Updates"]
+    AX --> AY["Arrive at Drop → Unload"]
+    AY --> AZ["Verify Delivery<br/>OTP / Photo / Signature"]
+    AZ --> BA["✅ DELIVERED"]
+    BA --> BB["Process Payment → Rate Driver"]
+    BB --> BC([🔴 END — Delivered]):::endNode
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '13px' } });</script>
+</body>
+</html>

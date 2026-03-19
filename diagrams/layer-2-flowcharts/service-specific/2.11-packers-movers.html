@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.11 Packers & Movers Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟢 Layer 2 — Service-Specific Flows</div>
+        <h1>2.11 Packers & Movers Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Home/Office Relocation Service</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B["Select: Packers & Movers"]
+    B --> C{Move Type?}
+    C -->|Home| D["🏠 Home Relocation"]
+    C -->|Office| E["🏢 Office Relocation"]
+    C -->|Partial| F["📦 Few Items Only"]
+
+    D --> G{Home Size?}
+    G -->|1 BHK| H[Small Move]
+    G -->|2 BHK| I[Medium Move]
+    G -->|3+ BHK| J[Large Move]
+    E --> K[Office Size Assessment]
+    F --> L[Item Count Entry]
+
+    H --> M[Enter Source & Destination]
+    I --> M
+    J --> M
+    K --> M
+    L --> M
+
+    M --> N[Set Moving Date & Time]
+    N --> O["Pre-Move Inventory Setup"]
+    O --> P["List Items by Room:<br/>Living Room · Bedroom · Kitchen<br/>Bathroom · Balcony · Garage"]
+
+    P --> Q{Item Categories}
+    Q --> R["Furniture: Sofa, Bed, Table,<br/>Wardrobe, TV Unit"]
+    Q --> S["Appliances: AC, Fridge,<br/>Washing Machine, TV, Geyser"]
+    Q --> T["Fragile: Glassware,<br/>Electronics, Artwork"]
+    Q --> U["Heavy: Piano, Safe,<br/>Gym Equipment"]
+
+    R --> V[Calculate Volume & Weight]
+    S --> V
+    T --> V
+    U --> V
+
+    V --> W{Need Services?}
+    W -->|Packing Materials| X["Add: Boxes, Bubble Wrap,<br/>Tape, Foam — Charges Apply"]
+    W -->|Helpers/Labour| Y["Add: 2-6 Helpers<br/>₹300-500 per helper"]
+    W -->|Disassembly/Assembly| Z["Furniture Assembly Service<br/>Extra Charge"]
+    W -->|Insurance| AA["Transit Insurance<br/>Declared Value × 1-2%"]
+    X --> AB[All Add-ons Selected]
+    Y --> AB
+    Z --> AB
+    AA --> AB
+
+    AB --> AC["Generate Quotation"]
+    AC --> AD["Quote Breakdown:<br/>Base Rate per BHK<br/>+ Distance Charges<br/>+ Packing Material<br/>+ Labour<br/>+ Assembly/Disassembly<br/>+ Insurance<br/>+ Floor Charges<br/>+ GST 18%"]
+
+    AD --> AE{Customer Approves Quote?}
+    AE -->|No| AF[Negotiate / Edit Items]
+    AF --> O
+    AE -->|Yes| AG["Pay Advance: 20-30%"]
+
+    AG --> AH["Booking Confirmed<br/>Status: MOVE_SCHEDULED"]
+    AH --> AI["Assign Moving Team<br/>Team Lead + Helpers + Vehicle"]
+    AI --> AJ[Day Before: Confirmation Call]
+    AJ --> AK["Moving Day: Team Arrives"]
+
+    AK --> AL["📋 Pre-Move Checksheet<br/>Inventory Verification"]
+    AL --> AM["Pack Items Room by Room"]
+    AM --> AN["Label All Boxes<br/>Numbered + Room Tag"]
+    AN --> AO["Load into Vehicle<br/>Photo Documentation"]
+    AO --> AP["Start Transit<br/>GPS Tracking Active"]
+
+    AP --> AQ["Arrive at Destination"]
+    AQ --> AR["Unload & Place by Room"]
+    AR --> AS{Assembly Needed?}
+    AS -->|Yes| AT["Reassemble Furniture<br/>& Install Appliances"]
+    AS -->|No| AU[Skip]
+    AT --> AV["Post-Move Inspection"]
+    AU --> AV
+
+    AV --> AW{Damage Check}
+    AW -->|No Damage| AX["Customer Signs Completion"]
+    AW -->|Damage Found| AY["Document Damage<br/>File Insurance Claim"]
+    AY --> AZ["Claim Processed → Compensation"]
+    AZ --> AX
+
+    AX --> BA["Collect Remaining Payment"]
+    BA --> BB["Generate Final Invoice"]
+    BB --> BC["Customer Rates Service"]
+    BC --> BD([🔴 END — Move Complete]):::endNode
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '13px' } });</script>
+</body>
+</html>

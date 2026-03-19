@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.03 Module Breakdown Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #0c1929 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.03 Module Breakdown Diagram <span class="badge">SDE</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    ROOT["🚛 VELO Courrier Platform"]
+
+    ROOT --> M1["📱 Customer Module"]
+    ROOT --> M2["🚚 Driver Module"]
+    ROOT --> M3["🏢 Business Module"]
+    ROOT --> M4["🛠️ Admin Module"]
+    ROOT --> M5["⚙️ Core Services"]
+
+    M1 --> M1A["Registration & Auth"]
+    M1 --> M1B["Profile & Addresses"]
+    M1 --> M1C["Service Selection"]
+    M1 --> M1D["Booking Management"]
+    M1 --> M1E["Live Tracking"]
+    M1 --> M1F["Payments"]
+    M1 --> M1G["Ratings & Reviews"]
+    M1 --> M1H["Support & Help"]
+    M1 --> M1I["Notifications Center"]
+
+    M2 --> M2A["Registration & KYC"]
+    M2 --> M2B["Vehicle Management"]
+    M2 --> M2C["Availability Control"]
+    M2 --> M2D["Job Request Handler"]
+    M2 --> M2E["Trip Execution"]
+    M2 --> M2F["Navigation Engine"]
+    M2 --> M2G["Earnings & Wallet"]
+    M2 --> M2H["Payouts & Banking"]
+    M2 --> M2I["Driver Support"]
+
+    M3 --> M3A["Business Registration"]
+    M3 --> M3B["Team Management"]
+    M3 --> M3C["Single Booking"]
+    M3 --> M3D["Bulk Booking"]
+    M3 --> M3E["Scheduled Routes"]
+    M3 --> M3F["Invoice & Billing"]
+    M3 --> M3G["Reports & Analytics"]
+    M3 --> M3H["API Integration"]
+
+    M4 --> M4A["User Management"]
+    M4 --> M4B["Driver Approvals"]
+    M4 --> M4C["Vehicle Categories"]
+    M4 --> M4D["Booking Monitoring"]
+    M4 --> M4E["Pricing Engine"]
+    M4 --> M4F["Promotions"]
+    M4 --> M4G["Disputes & Refunds"]
+    M4 --> M4H["System Reports"]
+    M4 --> M4I["Notification Control"]
+    M4 --> M4J["City/Zone Config"]
+
+    M5 --> M5A["Auth Engine<br/>JWT · OTP · OAuth2"]
+    M5 --> M5B["Booking Engine<br/>Lifecycle · Status"]
+    M5 --> M5C["Dispatch Engine<br/>Matching · Scoring"]
+    M5 --> M5D["Pricing Engine<br/>Fare · Surge · Tax"]
+    M5 --> M5E["Payment Engine<br/>Gateway · Split · Refund"]
+    M5 --> M5F["Tracking Engine<br/>GPS · WebSocket"]
+    M5 --> M5G["Notification Engine<br/>Push · SMS · Email"]
+    M5 --> M5H["Storage Engine<br/>S3 · CDN · Docs"]
+
+    classDef rootClass fill:#6d28d9,stroke:#8b5cf6,color:#fff,font-weight:bold
+    classDef moduleClass fill:#1e40af,stroke:#3b82f6,color:#fff,font-weight:bold
+    classDef subClass fill:#1e293b,stroke:#475569,color:#e2e8f0
+    classDef coreClass fill:#065f46,stroke:#10b981,color:#fff
+
+    class ROOT rootClass
+    class M1,M2,M3,M4,M5 moduleClass
+    class M1A,M1B,M1C,M1D,M1E,M1F,M1G,M1H,M1I subClass
+    class M2A,M2B,M2C,M2D,M2E,M2F,M2G,M2H,M2I subClass
+    class M3A,M3B,M3C,M3D,M3E,M3F,M3G,M3H subClass
+    class M4A,M4B,M4C,M4D,M4E,M4F,M4G,M4H,M4I,M4J subClass
+    class M5A,M5B,M5C,M5D,M5E,M5F,M5G,M5H coreClass
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '12px' } });</script>
+</body>
+</html>

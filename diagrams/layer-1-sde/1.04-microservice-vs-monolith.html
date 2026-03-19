@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.04 Microservice vs Monolith Decision — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.04 Microservice vs Monolith Decision <span class="badge">SDE</span></h1>
+        <div class="subtitle">Architectural Trade-offs and Evolution Strategy</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    subgraph OPTIONS["Architectural Options"]
+        M1["🏗️ Modular Monolith<br/>(Initial Build)"]
+        M2["⚙️ Microservices<br/>(Scale State)"]
+    end
+
+    START([Project Inception]) --> CRIT{Scaling Requirements?}
+    
+    CRIT -->|Low Traffic / MVP| M1
+    CRIT -->|High Traffic / Complex| M2
+
+    subgraph MONO_PROS["Monolith Advantages"]
+        P1["Simple Deployment"]
+        P2["Low Operational Complexity"]
+        P3["Unified Database"]
+        P4["Faster MVP Iteration"]
+    end
+
+    subgraph MICRO_PROS["Microservices Advantages"]
+        P5["Independent Scaling"]
+        P6["Technological Diversity"]
+        P7["Fault Isolation"]
+        P8["Small, Focused Teams"]
+    end
+
+    M1 --- MONO_PROS
+    M2 --- MICRO_PROS
+
+    subgraph DECISION["Decision Factors"]
+        D1["Team Size: < 5 Devs → Monolith"]
+        D2["Domain Complexity: High → Microservices"]
+        D3["Infrastructure Budget: Low → Monolith"]
+        D4["Deploy Frequency: Multiple/Day → Microservices"]
+    end
+
+    M1 -->|Growth Phase| EVOLVE{Complexity Threshold reached?}
+    EVOLVE -->|No| M1
+    EVOLVE -->|Yes| REF["📐 Service Extraction<br/>(Strangler Pattern)"]
+    REF --> M2
+
+    subgraph STRATEGY["VELO Evolutionary Path"]
+        S1["Phase 1: Modular Monolith<br/>Shared DB, Logic separated by Modules"]
+        S2["Phase 2: Database Partitioning<br/>Split Booking, User, Payment Schemas"]
+        S3["Phase 3: Service Extraction<br/>Payment & Booking as microservices"]
+    end
+
+    style M1 fill:#1e40af,stroke:#3b82f6,color:#fff
+    style M2 fill:#065f46,stroke:#10b981,color:#fff
+    style REF fill:#92400e,stroke:#f59e0b,color:#fff
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff
+    class START startNode
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8' } });</script>
+</body>
+</html>

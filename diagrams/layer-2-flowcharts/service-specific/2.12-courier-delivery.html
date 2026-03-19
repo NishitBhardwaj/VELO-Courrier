@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.12 Courier Delivery Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟢 Layer 2 — Service-Specific Flows</div>
+        <h1>2.12 Courier Delivery Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Two-Wheeler Fast Parcel & Document Delivery</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B["Select: Courier / Two-Wheeler Delivery"]
+    B --> C{Package Type?}
+    C -->|Documents| D["📄 Documents<br/>Envelope / File / Legal Papers"]
+    C -->|Small Parcel| E["📦 Small Package<br/>Up to 5 kg"]
+    C -->|Medium Parcel| F["📦 Medium Package<br/>5-15 kg"]
+    C -->|Food / Perishable| G["🍱 Temperature Sensitive"]
+
+    D --> H[Enter Pickup Address]
+    E --> H
+    F --> H
+    G --> H
+
+    H --> I[Enter Drop Address]
+    I --> J[Enter Receiver Details]
+    J --> K["Receiver: Name, Phone"]
+
+    K --> L{Delivery Speed?}
+    L -->|Standard| M["Standard: 2-4 Hours<br/>Base Rate"]
+    L -->|Express| N["Express: 60-90 Min<br/>1.5x Premium"]
+    L -->|Same Hour| O["Same Hour: 30-60 Min<br/>2x Premium"]
+
+    M --> P[Enter Package Details]
+    N --> P
+    O --> P
+
+    P --> Q["Details: Weight (kg),<br/>Length × Width × Height (cm),<br/>Content Description"]
+    Q --> R{Fragile / Valuable?}
+    R -->|Yes| S["Add Handling Instructions<br/>+ Insurance Option"]
+    R -->|No| T[Standard Handling]
+    S --> U[Calculate Fare]
+    T --> U
+
+    U --> V["Fare: Base ₹30-50<br/>+ Per-km ₹8-15<br/>+ Weight Surcharge<br/>+ Speed Premium<br/>+ Insurance<br/>+ GST"]
+    V --> W[Show Fare & ETA]
+
+    W --> X{Confirm?}
+    X -->|No| Y[Edit / Cancel]
+    Y --> H
+    X -->|Yes| Z[Select Payment]
+    Z --> AA["Booking Created"]
+
+    AA --> AB["Dispatch: Find Nearest<br/>Two-Wheeler Driver"]
+    AB --> AC{Driver Found?}
+    AC -->|Yes| AD["Driver Assigned<br/>Show: Name, ETA"]
+    AC -->|No| AE["No Driver — Retry in 2 min"]
+    AE --> AB
+
+    AD --> AF["📍 Driver En Route to Pickup"]
+    AF --> AG["Arrive at Sender"]
+    AG --> AH["Verify Package"]
+    AH --> AI{Package Matches?}
+    AI -->|Yes| AJ["Collect Package<br/>Scan QR / Enter Booking ID"]
+    AI -->|No| AK["Report Mismatch"]
+    AK --> AL["Contact Customer"]
+    AL --> AJ
+
+    AJ --> AM["Take Photo of Package"]
+    AM --> AN["Generate Pickup OTP"]
+    AN --> AO["Sender Confirms with OTP"]
+    AO --> AP["Status: PICKED_UP"]
+
+    AP --> AQ["📍 In Transit to Receiver"]
+    AQ --> AR["Real-Time Tracking<br/>Receiver Gets SMS with Link"]
+    AR --> AS["Arrive at Drop Location"]
+
+    AS --> AT["Contact Receiver"]
+    AT --> AU{Receiver Available?}
+    AU -->|Yes| AV["Generate Delivery OTP"]
+    AV --> AW["Receiver Enters OTP"]
+    AW --> AX{OTP Correct?}
+    AX -->|Yes| AY["✅ DELIVERED"]
+    AX -->|No| AZ["Retry OTP"]
+    AZ --> AW
+
+    AU -->|No Answer| BA{Attempts?}
+    BA -->|Try Again| BB["Call + Wait 5 min"]
+    BB --> AT
+    BA -->|Max Attempts| BC["Mark: Delivery Failed"]
+    BC --> BD{Return to Sender?}
+    BD -->|Yes| BE["Return Trip<br/>Extra Charges Apply"]
+    BD -->|Hold at Hub| BF["Store at Nearest Hub<br/>48 Hour Window"]
+
+    AY --> BG["Take Delivery Photo"]
+    BG --> BH["Process Payment"]
+    BH --> BI["Send Receipt to Both Parties"]
+    BI --> BJ["Rate Experience"]
+    BJ --> BK([🔴 END — Delivered]):::endNode
+
+    BE --> BK
+    BF --> BK
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '13px' } });</script>
+</body>
+</html>

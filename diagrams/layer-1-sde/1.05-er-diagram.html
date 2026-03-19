@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.05 Database ER Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #0c1929 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.05 Database Entity Relationship Diagram <span class="badge">SDE</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application — 20 Entities</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+erDiagram
+    USERS {
+        uuid id PK
+        string name
+        string email UK
+        string phone UK
+        string password_hash
+        enum role "CUSTOMER | DRIVER | BUSINESS | ADMIN"
+        enum status "ACTIVE | SUSPENDED | DELETED"
+        string profile_photo_url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ROLES {
+        int id PK
+        string role_name UK
+        json permissions
+    }
+
+    DRIVERS {
+        uuid id PK
+        uuid user_id FK
+        enum kyc_status "PENDING | APPROVED | REJECTED"
+        string aadhaar_url
+        string pan_url
+        string license_url
+        string license_number
+        float rating_avg
+        int total_trips
+        boolean is_online
+        point current_location
+        timestamp last_active
+    }
+
+    VEHICLES {
+        uuid id PK
+        uuid driver_id FK
+        int category_id FK
+        string registration_number UK
+        string make_model
+        int year
+        string color
+        float max_weight_kg
+        string rc_url
+        string insurance_url
+        string fitness_url
+        enum status "ACTIVE | PENDING | REJECTED"
+    }
+
+    VEHICLE_CATEGORIES {
+        int id PK
+        string name
+        string description
+        string icon_url
+        float max_weight
+        float max_volume
+        int display_order
+        boolean is_active
+    }
+
+    ADDRESSES {
+        uuid id PK
+        uuid user_id FK
+        string label
+        string address_line
+        string city
+        string state
+        string pincode
+        float latitude
+        float longitude
+        boolean is_default
+    }
+
+    BOOKINGS {
+        uuid id PK
+        uuid customer_id FK
+        uuid driver_id FK
+        uuid vehicle_id FK
+        int category_id FK
+        uuid business_account_id FK
+        enum service_type "INSTANT | COURIER | PACKERS | ENTERPRISE"
+        enum status "CREATED | CONFIRMED | ASSIGNED | PICKUP | TRANSIT | DELIVERED | CANCELLED"
+        string pickup_address
+        float pickup_lat
+        float pickup_lng
+        string drop_address
+        float drop_lat
+        float drop_lng
+        float distance_km
+        int duration_min
+        float estimated_fare
+        float final_fare
+        string package_description
+        float package_weight
+        string special_instructions
+        boolean is_scheduled
+        timestamp scheduled_at
+        timestamp created_at
+        timestamp completed_at
+    }
+
+    BOOKING_STATUS_HISTORY {
+        uuid id PK
+        uuid booking_id FK
+        enum old_status
+        enum new_status
+        string changed_by
+        string reason
+        timestamp changed_at
+    }
+
+    PAYMENTS {
+        uuid id PK
+        uuid booking_id FK
+        uuid user_id FK
+        float amount
+        float tax_amount
+        float discount_amount
+        float final_amount
+        enum method "UPI | CARD | NET_BANKING | WALLET | COD"
+        enum status "PENDING | SUCCESS | FAILED | REFUNDED"
+        string gateway_txn_id
+        timestamp paid_at
+    }
+
+    WALLETS {
+        uuid id PK
+        uuid user_id FK
+        float balance
+        enum type "CUSTOMER | DRIVER | BUSINESS"
+        timestamp updated_at
+    }
+
+    WALLET_TRANSACTIONS {
+        uuid id PK
+        uuid wallet_id FK
+        float amount
+        enum type "CREDIT | DEBIT"
+        string description
+        uuid reference_id
+        timestamp created_at
+    }
+
+    PAYOUTS {
+        uuid id PK
+        uuid driver_id FK
+        float amount
+        string bank_account
+        string ifsc_code
+        enum status "PENDING | PROCESSING | COMPLETED | FAILED"
+        timestamp requested_at
+        timestamp processed_at
+    }
+
+    RATINGS {
+        uuid id PK
+        uuid booking_id FK
+        uuid rated_by FK
+        uuid rated_for FK
+        int stars
+        string review_text
+        json tags
+        timestamp created_at
+    }
+
+    SUPPORT_TICKETS {
+        uuid id PK
+        uuid user_id FK
+        uuid booking_id FK
+        enum category "PAYMENT | DRIVER | BOOKING | ACCOUNT | SAFETY"
+        enum priority "LOW | MEDIUM | HIGH | EMERGENCY"
+        enum status "OPEN | IN_PROGRESS | RESOLVED | CLOSED"
+        string subject
+        text description
+        uuid assigned_agent FK
+        timestamp created_at
+        timestamp resolved_at
+    }
+
+    COUPONS {
+        uuid id PK
+        string code UK
+        enum discount_type "PERCENTAGE | FLAT | FREE_DELIVERY"
+        float discount_value
+        float max_discount
+        float min_order_amount
+        int total_uses_allowed
+        int times_used
+        int per_user_limit
+        timestamp valid_from
+        timestamp valid_to
+        boolean is_active
+    }
+
+    BUSINESS_ACCOUNTS {
+        uuid id PK
+        uuid admin_user_id FK
+        string company_name
+        string gst_number
+        string pan_number
+        enum billing_type "PREPAID | POSTPAID | PAY_PER_USE"
+        float credit_limit
+        float credit_used
+        enum status "PENDING | ACTIVE | SUSPENDED"
+        timestamp created_at
+    }
+
+    INVOICES {
+        uuid id PK
+        uuid business_account_id FK
+        string invoice_number UK
+        float total_amount
+        float tax_amount
+        float grand_total
+        enum status "GENERATED | SENT | PAID | OVERDUE"
+        date billing_period_start
+        date billing_period_end
+        string pdf_url
+        timestamp created_at
+        timestamp paid_at
+    }
+
+    NOTIFICATIONS {
+        uuid id PK
+        uuid user_id FK
+        string title
+        text body
+        enum channel "PUSH | SMS | EMAIL | WHATSAPP | IN_APP"
+        enum status "QUEUED | SENT | DELIVERED | FAILED"
+        string deep_link
+        boolean is_read
+        timestamp sent_at
+    }
+
+    KYC_DOCUMENTS {
+        uuid id PK
+        uuid user_id FK
+        enum doc_type "AADHAAR | PAN | LICENSE | RC | INSURANCE | FITNESS | PHOTO"
+        string file_url
+        enum status "UPLOADED | VERIFIED | REJECTED"
+        string rejection_reason
+        timestamp uploaded_at
+        timestamp verified_at
+    }
+
+    CITY_ZONES {
+        int id PK
+        string city_name
+        string state
+        string country
+        enum tier "TIER_1 | TIER_2 | TIER_3"
+        boolean is_active
+        json geofence_polygon
+    }
+
+    PRICING_RULES {
+        int id PK
+        int city_zone_id FK
+        int vehicle_category_id FK
+        enum service_type
+        float base_fare
+        float min_fare
+        float per_km_rate
+        float per_min_rate
+        float waiting_charge_per_min
+        float surge_multiplier_max
+        float platform_commission_pct
+        boolean is_active
+    }
+
+    USERS ||--o{ ADDRESSES : "has many"
+    USERS ||--o| DRIVERS : "is a"
+    USERS ||--o| WALLETS : "has one"
+    USERS ||--o{ BOOKINGS : "creates"
+    USERS ||--o{ RATINGS : "gives"
+    USERS ||--o{ SUPPORT_TICKETS : "raises"
+    USERS ||--o{ NOTIFICATIONS : "receives"
+    USERS ||--o{ KYC_DOCUMENTS : "uploads"
+    USERS }o--|| ROLES : "has role"
+
+    DRIVERS ||--o{ VEHICLES : "owns"
+    DRIVERS ||--o{ BOOKINGS : "assigned to"
+    DRIVERS ||--o{ PAYOUTS : "requests"
+
+    VEHICLES }o--|| VEHICLE_CATEGORIES : "belongs to"
+
+    BOOKINGS ||--o{ BOOKING_STATUS_HISTORY : "has history"
+    BOOKINGS ||--|| PAYMENTS : "has payment"
+    BOOKINGS ||--o| RATINGS : "has rating"
+    BOOKINGS ||--o| SUPPORT_TICKETS : "may have"
+    BOOKINGS }o--o| COUPONS : "uses"
+    BOOKINGS }o--o| BUSINESS_ACCOUNTS : "belongs to"
+
+    WALLETS ||--o{ WALLET_TRANSACTIONS : "has txns"
+
+    BUSINESS_ACCOUNTS ||--o{ INVOICES : "has invoices"
+    BUSINESS_ACCOUNTS ||--o{ USERS : "has team members"
+
+    CITY_ZONES ||--o{ PRICING_RULES : "has pricing"
+    VEHICLE_CATEGORIES ||--o{ PRICING_RULES : "priced by"
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', er: { useMaxWidth: true }, themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '12px' } });</script>
+</body>
+</html>

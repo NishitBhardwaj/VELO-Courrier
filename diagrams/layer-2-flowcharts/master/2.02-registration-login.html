@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1 User Registration & Login Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #6366f1; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #818cf8; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #312e81; color: #a5b4fc; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { border-bottom-color: #6366f1; background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🧠 1. Core System Flows</div>
+        <h1>1.1 User Registration & Login Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START]):::startNode --> B[Open App]
+    B --> C{New User?}
+    C -->|Yes| D[Show Signup Screen]
+    C -->|No| E[Show Login Screen]
+
+    D --> F[Enter Name, Email, Phone]
+    F --> G{Select Signup Method}
+    G -->|Phone| H[Enter Mobile Number]
+    G -->|Email| I[Enter Email & Password]
+    G -->|Social Login| J[Google / Apple / Facebook]
+
+    H --> K[Send OTP via SMS]
+    K --> L[Enter OTP]
+    L --> M{OTP Valid?}
+    M -->|No| N[Show Error — Retry]
+    N --> K
+    M -->|Yes| O[Create User Account]
+
+    I --> P[Send Verification Email]
+    P --> Q[Verify Email Link]
+    Q --> O
+
+    J --> R[OAuth Authentication]
+    R --> S{Auth Success?}
+    S -->|No| T[Show Error]
+    T --> B
+    S -->|Yes| O
+
+    O --> U[Select Role]
+    U --> V{Role Type}
+    V -->|Customer| W[Setup Customer Profile]
+    V -->|Driver| X[Setup Driver Profile + KYC]
+    V -->|Business| Y[Setup Business Account]
+
+    W --> Z[Save to Database]
+    X --> Z
+    Y --> Z
+    Z --> AA[Generate Auth Token]
+    AA --> AB[Redirect to Dashboard]
+    AB --> AC([🔴 END]):::endNode
+
+    E --> AD{Login Method}
+    AD -->|Phone + OTP| H
+    AD -->|Email + Password| AE[Enter Credentials]
+    AD -->|Social| J
+
+    AE --> AF{Credentials Valid?}
+    AF -->|No| AG[Show Error — Retry]
+    AG --> E
+    AF -->|Yes| AA
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            themeVariables: {
+                primaryColor: '#6366f1',
+                primaryTextColor: '#f1f5f9',
+                primaryBorderColor: '#818cf8',
+                lineColor: '#94a3b8',
+                secondaryColor: '#1e293b',
+                tertiaryColor: '#334155',
+                fontSize: '14px'
+            }
+        });
+    </script>
+</body>
+</html>

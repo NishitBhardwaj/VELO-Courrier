@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.7 Live Tracking Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #f59e0b; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #fbbf24; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #78350f; color: #fde68a; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">👤 2. Customer App Flows</div>
+        <h1>2.7 Live Tracking Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 START — Driver Assigned]):::startNode --> B[Open Tracking Screen]
+    B --> C[Establish WebSocket Connection]
+    C --> D[Load Map View]
+
+    D --> E[Show Driver Location Pin]
+    E --> F[Show Pickup & Drop Markers]
+    F --> G[Draw Route on Map]
+
+    G --> H{Current Trip Phase?}
+
+    H -->|En Route to Pickup| I[Show Driver Moving to Pickup]
+    I --> J[Update ETA to Pickup]
+    J --> K[Driver GPS Updates Every 3s]
+    K --> L{Driver Near Pickup?}
+    L -->|No| K
+    L -->|Yes| M[Push: Driver Arriving]
+
+    H -->|At Pickup| N[Show Driver Arrived Badge]
+    N --> O[Enable Call/Chat Driver]
+    O --> P[Waiting for Goods Loading]
+
+    H -->|In Transit| Q[Show Active Trip Route]
+    Q --> R[Update ETA to Drop]
+    R --> S[Show Distance Remaining]
+    S --> T[Track Driver Movement]
+    T --> U{Driver Near Drop?}
+    U -->|No| T
+    U -->|Yes| V[Push: Driver Arriving at Drop]
+
+    H -->|At Drop Location| W[Show Arrived at Drop]
+    W --> X[Prompt: Verify Delivery]
+
+    M --> Y{Driver Confirms Pickup?}
+    Y -->|Yes| Z[Status: Goods Picked Up]
+    Z --> Q
+    Y -->|Issue| AA[Contact Support]
+
+    V --> AB{Delivery Confirmed?}
+    AB -->|OTP Match| AC[Status: Delivered]
+    AB -->|Issue| AD[Report Issue]
+    AD --> AA
+
+    AC --> AE[Close WebSocket Connection]
+    AE --> AF[Show Trip Summary]
+    AF --> AG["Summary: Route Taken,<br/>Duration, Distance, Fare"]
+    AG --> AH[Share Trip Details Option]
+    AH --> AI([🔴 END — Trip Complete]):::endNode
+
+    AA --> AJ[Support Resolves Issue]
+    AJ --> AI
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#f59e0b', primaryTextColor: '#f1f5f9', primaryBorderColor: '#fbbf24', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '14px' } });</script>
+</body>
+</html>

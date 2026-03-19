@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.01 End-to-End Platform Flow — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 2px solid #10b981; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #34d399; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #064e3b; color: #6ee7b7; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟢 Layer 2 — Flowcharts / Master Flows</div>
+        <h1>2.01 End-to-End Platform Flow <span class="badge">HLD</span></h1>
+        <div class="subtitle">VELO Courrier — Complete Platform Journey from Registration to Delivery</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TD
+    A([🟢 PLATFORM ENTRY]):::startNode --> B{User Type?}
+
+    B -->|Customer| C["Customer Registration<br/>Phone · Email · Social"]
+    B -->|Driver| D["Driver Registration<br/>Phone · KYC · Vehicle"]
+    B -->|Business| E["Business Registration<br/>Company · GST · Billing"]
+    B -->|Admin| F["Admin Login<br/>Email · 2FA"]
+
+    C --> G["✅ Customer Dashboard"]
+    D --> H{KYC Review}
+    H -->|Approved| I["✅ Driver Dashboard"]
+    H -->|Pending| J["⏳ Awaiting Admin Approval"]
+    J --> H
+    E --> K{Business Approval}
+    K -->|Approved| L["✅ Business Dashboard"]
+    K -->|Pending| M["⏳ Awaiting Verification"]
+    M --> K
+    F --> N["✅ Admin Panel"]
+
+    G --> O{Select Service}
+    L --> O
+
+    O -->|Instant Transport| P["📦 Goods Transport"]
+    O -->|Courier| Q["📨 Courier Delivery"]
+    O -->|Packers & Movers| R["🏠 Relocation"]
+    O -->|Enterprise Bulk| S["🏢 Bulk Shipment"]
+
+    P --> T[Set Pickup & Drop]
+    Q --> T
+    R --> T
+    S --> T
+
+    T --> U[Select Vehicle Category]
+    U --> V["Pricing Engine<br/>Base + Distance + Surge + Tax"]
+    V --> W[Show Fare Estimate]
+    W --> X{Confirm Booking?}
+    X -->|No| Y[Cancel / Edit]
+    Y --> T
+    X -->|Yes| Z[Select Payment Method]
+
+    Z --> AA["Create Booking<br/>Status: CONFIRMED"]
+    AA --> AB["🔍 Dispatch Engine"]
+    AB --> AC["Find Nearby Drivers<br/>Score: Distance + Rating + Vehicle"]
+    AC --> AD[Send Request to Best Driver]
+    AD --> AE{Driver Response}
+    AE -->|Accept| AF["Booking ASSIGNED<br/>Notify Customer"]
+    AE -->|Reject/Timeout| AG[Try Next Driver]
+    AG --> AC
+
+    AF --> AH["📍 Driver Navigates to Pickup"]
+    AH --> AI["Driver Arrives → AT_PICKUP"]
+    AI --> AJ["Verify & Load Goods<br/>Photo Proof"]
+    AJ --> AK["Trip Starts → IN_TRANSIT"]
+    AK --> AL["🗺️ Live GPS Tracking<br/>Customer Sees Real-Time Map"]
+
+    AL --> AM["Driver Arrives at Drop"]
+    AM --> AN{Delivery Verification}
+    AN -->|OTP| AO[Customer Provides OTP]
+    AN -->|Signature| AP[Digital Signature]
+    AN -->|Photo| AQ[Photo Proof at Door]
+    AO --> AR["✅ DELIVERED"]
+    AP --> AR
+    AQ --> AR
+
+    AR --> AS["💳 Payment Processing"]
+    AS --> AT{Payment Method}
+    AT -->|Online - UPI/Card| AU[Process via Gateway]
+    AT -->|Wallet| AV[Deduct from Wallet]
+    AT -->|Cash| AW[Driver Collects Cash]
+    AT -->|Business Credit| AX[Charge to Account]
+
+    AU --> AY["Payment Complete"]
+    AV --> AY
+    AW --> AY
+    AX --> AY
+
+    AY --> AZ["📊 Settlement"]
+    AZ --> BA["Split: Driver Earnings vs Platform Commission"]
+    BA --> BB["Driver Wallet Credited"]
+    BB --> BC["📲 Notifications Sent<br/>Push + SMS + Email"]
+
+    BC --> BD{Rating & Review}
+    BD --> BE["Customer Rates Driver"]
+    BD --> BF["Driver Rates Customer"]
+    BE --> BG["Update Driver Rating Avg"]
+    BF --> BG
+    BG --> BH["Trip Archived in History"]
+    BH --> BI([🔴 PLATFORM CYCLE COMPLETE]):::endNode
+
+    N --> BJ["Admin Monitors All"]
+    BJ --> BK["Approve Drivers · Monitor Bookings<br/>Handle Disputes · Configure Pricing<br/>Manage Promos · View Reports"]
+
+    classDef startNode fill:#22c55e,stroke:#16a34a,color:#fff,stroke-width:2px
+    classDef endNode fill:#ef4444,stroke:#dc2626,color:#fff,stroke-width:2px
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#10b981', primaryTextColor: '#f1f5f9', primaryBorderColor: '#34d399', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '13px' } });</script>
+</body>
+</html>

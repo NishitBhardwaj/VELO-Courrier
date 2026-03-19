@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.02 High-Level Architecture Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #0c1929 0%, #0f172a 100%); border-bottom: 2px solid #06b6d4; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #164e63; color: #67e8f9; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🔷 Layer 1 — SDE / System Design</div>
+        <h1>1.02 High-Level Architecture Diagram <span class="badge">SDE</span></h1>
+        <div class="subtitle">VELO Courrier — Cross-Platform Logistics Application</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart TB
+    subgraph TIER1["🖥️ TIER 1 — Presentation Layer"]
+        direction LR
+        subgraph MOBILE["Mobile Apps — Flutter"]
+            MA1["Customer App<br/>Android · iOS · Windows"]
+            MA2["Driver App<br/>Android · iOS"]
+        end
+        subgraph WEB["Web Apps — React/Angular"]
+            WA1["Business Dashboard"]
+            WA2["Admin Panel"]
+        end
+    end
+
+    subgraph TIER2["🌐 TIER 2 — API & Communication Layer"]
+        direction LR
+        LB["Load Balancer<br/>Nginx / AWS ALB"]
+        APIG["API Gateway<br/>REST Endpoints · Auth Middleware"]
+        WSS["WebSocket Server<br/>Socket.IO / SignalR"]
+        MQ["Message Queue<br/>RabbitMQ / Redis Pub-Sub"]
+    end
+
+    subgraph TIER3["⚙️ TIER 3 — Application / Business Logic Layer"]
+        direction LR
+        subgraph CORE["Core Services"]
+            SVC1["Auth & User<br/>Service"]
+            SVC2["Booking<br/>Service"]
+            SVC3["Dispatch<br/>Engine"]
+            SVC4["Payment<br/>Service"]
+        end
+        subgraph SUPPORT["Support Services"]
+            SVC5["Tracking<br/>Service"]
+            SVC6["Pricing<br/>Engine"]
+            SVC7["Notification<br/>Service"]
+            SVC8["Analytics<br/>Service"]
+        end
+    end
+
+    subgraph TIER4["🗄️ TIER 4 — Data & Storage Layer"]
+        direction LR
+        subgraph PRIMARY["Primary Storage"]
+            DB1["PostgreSQL<br/>Users · Bookings · Payments<br/>Vehicles · Ratings"]
+        end
+        subgraph CACHE["Cache & Queues"]
+            DB2["Redis<br/>Sessions · OTP · Location<br/>Driver Pool · Rate Limits"]
+        end
+        subgraph STORAGE["Object Storage"]
+            DB3["AWS S3<br/>KYC Docs · Vehicle Photos<br/>Invoice PDFs"]
+        end
+        subgraph SEARCH["Search & Logs"]
+            DB4["Elasticsearch<br/>Booking Search · Audit Logs<br/>Analytics Data"]
+        end
+    end
+
+    MOBILE --> LB
+    WEB --> LB
+    LB --> APIG
+    LB --> WSS
+    APIG --> CORE
+    APIG --> SUPPORT
+    WSS --> SVC5
+    WSS --> SVC7
+    MQ --> SVC7
+    SVC2 --> MQ
+    SVC3 --> MQ
+    SVC4 --> MQ
+
+    CORE --> PRIMARY
+    CORE --> CACHE
+    SUPPORT --> CACHE
+    SVC1 --> STORAGE
+    SVC8 --> SEARCH
+    SVC7 --> SEARCH
+
+    classDef tier1 fill:#1e40af,stroke:#3b82f6,color:#fff
+    classDef tier2 fill:#0e7490,stroke:#06b6d4,color:#fff
+    classDef tier3 fill:#065f46,stroke:#10b981,color:#fff
+    classDef tier4 fill:#92400e,stroke:#f59e0b,color:#fff
+
+    class MA1,MA2,WA1,WA2 tier1
+    class LB,APIG,WSS,MQ tier2
+    class SVC1,SVC2,SVC3,SVC4,SVC5,SVC6,SVC7,SVC8 tier3
+    class DB1,DB2,DB3,DB4 tier4
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#06b6d4', primaryTextColor: '#f1f5f9', primaryBorderColor: '#22d3ee', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '13px' } });</script>
+</body>
+</html>

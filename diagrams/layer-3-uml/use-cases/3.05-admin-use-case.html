@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.05 Admin Use Case Diagram — VELO Courrier</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}.header{background:linear-gradient(135deg,#1e1b4b,#0f172a);border-bottom:2px solid #8b5cf6;padding:24px 40px}.header .category{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:4px}.header h1{font-size:24px;font-weight:700;color:#f1f5f9}.header .subtitle{font-size:13px;color:#94a3b8;margin-top:4px}.badge{display:inline-block;background:#4c1d95;color:#c4b5fd;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;margin-left:12px;vertical-align:middle}.chart-container{display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;min-height:calc(100vh - 100px)}.mermaid{background:#1e293b;border-radius:12px;padding:32px;border:1px solid #334155;box-shadow:0 4px 24px rgba(0,0,0,.3);max-width:95vw;overflow-x:auto}@media print{body{background:#fff;color:#111}.header{background:#f8fafc}.header h1,.header .category,.header .subtitle{color:#111}.mermaid{background:#fff;border-color:#ddd}}</style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟣 Layer 3 — UML / Use Cases</div>
+        <h1>3.05 Admin Use Case Diagram <span class="badge">UML</span></h1>
+        <div class="subtitle">VELO Courrier — Admin/Operations Actor Interactions</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart LR
+    ADM["🛠️ Admin"]
+
+    subgraph USER_MGMT["User Management"]
+        A1["View All Users"]
+        A2["Search Users"]
+        A3["Suspend User"]
+        A4["Reactivate User"]
+        A5["Delete/Anonymize User"]
+        A6["Export User Data"]
+    end
+
+    subgraph DRIVER_MGMT["Driver Management"]
+        B1["Review KYC Queue"]
+        B2["Verify Documents"]
+        B3["Approve Driver"]
+        B4["Reject Driver"]
+        B5["Flag Fraud"]
+        B6["Manage Vehicle Categories"]
+        B7["Set Vehicle Pricing"]
+    end
+
+    subgraph BOOKING_MGMT["Booking Operations"]
+        C1["Monitor Live Bookings"]
+        C2["View on Map"]
+        C3["Reassign Driver"]
+        C4["Cancel Booking"]
+        C5["Override Fare"]
+        C6["Escalate Issue"]
+    end
+
+    subgraph PRICING_MGMT["Pricing & Promotions"]
+        D1["Configure Base Fares"]
+        D2["Set Surge Rules"]
+        D3["Set City-wise Pricing"]
+        D4["Set Commission Rates"]
+        D5["Create Promo Code"]
+        D6["Manage Discounts"]
+        D7["Set Promo Budget"]
+    end
+
+    subgraph DISPUTES["Disputes & Refunds"]
+        E1["Review Disputes"]
+        E2["Investigate Trip"]
+        E3["Process Full Refund"]
+        E4["Process Partial Refund"]
+        E5["Issue Wallet Credit"]
+        E6["Warn/Suspend Driver"]
+    end
+
+    subgraph REPORTS["Reports & Notifications"]
+        F1["View Dashboard Analytics"]
+        F2["Generate Financial Report"]
+        F3["Generate Operations Report"]
+        F4["Export to PDF/Excel"]
+        F5["Send Push Notification"]
+        F6["Manage Notification Templates"]
+        F7["Schedule Report Emails"]
+    end
+
+    ADM --> A1
+    ADM --> A2
+    ADM --> A3
+    ADM --> A5
+    ADM --> B1
+    ADM --> B3
+    ADM --> B4
+    ADM --> B6
+    ADM --> C1
+    ADM --> C3
+    ADM --> C4
+    ADM --> C5
+    ADM --> D1
+    ADM --> D2
+    ADM --> D5
+    ADM --> E1
+    ADM --> E3
+    ADM --> E4
+    ADM --> F1
+    ADM --> F2
+    ADM --> F5
+
+    B1 -.->|includes| B2
+    B4 -.->|extends| B5
+    E1 -.->|includes| E2
+    C1 -.->|includes| C2
+
+    classDef actorClass fill:#6d28d9,stroke:#8b5cf6,color:#fff,font-weight:bold
+    class ADM actorClass
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true,theme:'dark',flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis'},themeVariables:{primaryColor:'#8b5cf6',primaryTextColor:'#f1f5f9',primaryBorderColor:'#a78bfa',lineColor:'#94a3b8',secondaryColor:'#1e293b',tertiaryColor:'#334155',fontSize:'12px'}});</script>
+</body>
+</html>

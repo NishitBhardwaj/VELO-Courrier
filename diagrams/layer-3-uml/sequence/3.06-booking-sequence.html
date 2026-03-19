@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.06 Booking Sequence Diagram — VELO Courrier</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}.header{background:linear-gradient(135deg,#1e1b4b,#0f172a);border-bottom:2px solid #8b5cf6;padding:24px 40px}.header .category{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:4px}.header h1{font-size:24px;font-weight:700;color:#f1f5f9}.header .subtitle{font-size:13px;color:#94a3b8;margin-top:4px}.badge{display:inline-block;background:#4c1d95;color:#c4b5fd;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;margin-left:12px;vertical-align:middle}.chart-container{display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;min-height:calc(100vh - 100px)}.mermaid{background:#1e293b;border-radius:12px;padding:32px;border:1px solid #334155;box-shadow:0 4px 24px rgba(0,0,0,.3);max-width:95vw;overflow-x:auto}@media print{body{background:#fff;color:#111}.header{background:#f8fafc}.header h1,.header .category,.header .subtitle{color:#111}.mermaid{background:#fff;border-color:#ddd}}</style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟣 Layer 3 — UML / Sequence Diagrams</div>
+        <h1>3.06 Booking Sequence Diagram <span class="badge">UML</span></h1>
+        <div class="subtitle">VELO Courrier — Customer → App → API → Dispatch → Driver → Payment</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+sequenceDiagram
+    actor Customer
+    participant App as Customer App
+    participant API as API Gateway
+    participant BookingSvc as Booking Service
+    participant PricingSvc as Pricing Service
+    participant DispatchSvc as Dispatch Service
+    participant DB as PostgreSQL
+    participant Redis as Redis Cache
+    participant DriverApp as Driver App
+    participant PaymentSvc as Payment Service
+    participant Gateway as Payment Gateway
+    participant NotifSvc as Notification Service
+    participant TrackSvc as Tracking Service
+
+    Note over Customer,TrackSvc: 📍 Phase 1 — Booking Creation
+
+    Customer->>App: Select service, pickup, drop
+    App->>API: POST /bookings/estimate
+    API->>PricingSvc: calculateFare(pickup, drop, vehicle)
+    PricingSvc->>Redis: Get surge multiplier for zone
+    Redis-->>PricingSvc: surge = 1.3x
+    PricingSvc->>DB: Get pricing rules for city/vehicle
+    DB-->>PricingSvc: base=50, per_km=12, per_min=2
+    PricingSvc-->>API: Fare estimate: ₹285
+    API-->>App: Show fare breakdown
+    App-->>Customer: Display estimated fare
+
+    Customer->>App: Confirm booking & select payment
+    App->>API: POST /bookings
+    API->>BookingSvc: createBooking(details)
+    BookingSvc->>DB: INSERT INTO bookings (status=CONFIRMED)
+    DB-->>BookingSvc: booking_id = BK-2024-00123
+    BookingSvc-->>API: Booking created
+    API-->>App: Booking confirmed
+    App-->>Customer: Show confirmation screen
+
+    Note over Customer,TrackSvc: 🔍 Phase 2 — Driver Dispatch
+
+    BookingSvc->>DispatchSvc: dispatchDriver(booking_id)
+    DispatchSvc->>Redis: Get online drivers in 3km radius
+    Redis-->>DispatchSvc: 5 drivers found
+    DispatchSvc->>DB: Get driver ratings, acceptance rates
+    DB-->>DispatchSvc: Driver scores calculated
+    DispatchSvc->>DriverApp: Push notification: New job request
+    
+    alt Driver Accepts
+        DriverApp->>API: POST /bookings/BK-2024-00123/accept
+        API->>BookingSvc: assignDriver(booking_id, driver_id)
+        BookingSvc->>DB: UPDATE bookings SET status=ASSIGNED, driver_id=DR-45
+        BookingSvc->>NotifSvc: notifyCustomer(driver_assigned)
+        NotifSvc->>App: Push: Driver Assigned — ETA 8 min
+        App-->>Customer: Show driver details + ETA
+    else Driver Rejects / Timeout
+        DriverApp->>API: Reject or 30s timeout
+        API->>DispatchSvc: tryNextDriver()
+        DispatchSvc->>DriverApp: Send to next ranked driver
+    end
+
+    Note over Customer,TrackSvc: 📍 Phase 3 — Trip Execution
+
+    DriverApp->>API: POST /trips/BK-2024-00123/arrived-pickup
+    API->>BookingSvc: updateStatus(AT_PICKUP)
+    BookingSvc->>NotifSvc: notify(driver_arrived)
+    NotifSvc->>App: Push: Driver has arrived
+
+    DriverApp->>API: POST /trips/BK-2024-00123/start
+    API->>BookingSvc: updateStatus(IN_TRANSIT)
+    API->>TrackSvc: startTracking(booking_id, driver_id)
+    
+    loop Every 3 seconds
+        DriverApp->>TrackSvc: WebSocket: GPS location update
+        TrackSvc->>Redis: Store latest position
+        TrackSvc->>App: WebSocket: Driver position update
+        App-->>Customer: Update map marker
+    end
+
+    DriverApp->>API: POST /trips/BK-2024-00123/arrived-drop
+    API->>BookingSvc: updateStatus(AT_DROP)
+    NotifSvc->>App: Push: Driver at drop location
+
+    DriverApp->>API: POST /trips/BK-2024-00123/deliver (otp=4521)
+    API->>BookingSvc: verifyOTP & completeTrip()
+    BookingSvc->>DB: UPDATE bookings SET status=DELIVERED
+
+    Note over Customer,TrackSvc: 💳 Phase 4 — Payment
+
+    BookingSvc->>PricingSvc: calculateFinalFare(actual_distance, actual_time)
+    PricingSvc-->>BookingSvc: Final fare: ₹310
+    BookingSvc->>PaymentSvc: processPayment(booking_id, ₹310)
+    PaymentSvc->>Gateway: charge(method=UPI, amount=310)
+    Gateway-->>PaymentSvc: txn_id=TXN-789, status=SUCCESS
+    PaymentSvc->>DB: INSERT INTO payments (status=SUCCESS)
+    PaymentSvc->>BookingSvc: paymentComplete
+    BookingSvc->>DB: UPDATE bookings SET final_fare=310
+
+    PaymentSvc->>DB: Split: Driver ₹248 / Platform ₹62
+    PaymentSvc->>DB: Credit driver wallet
+
+    NotifSvc->>App: Push: Payment successful ₹310
+    NotifSvc->>DriverApp: Push: Earned ₹248
+    App-->>Customer: Show receipt + rate driver
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true,theme:'dark',sequence:{useMaxWidth:true,showSequenceNumbers:true},themeVariables:{primaryColor:'#8b5cf6',primaryTextColor:'#f1f5f9',primaryBorderColor:'#a78bfa',lineColor:'#94a3b8',actorBkg:'#4c1d95',actorTextColor:'#f1f5f9',actorBorder:'#8b5cf6',activationBkgColor:'#312e81',signalColor:'#94a3b8',signalTextColor:'#e2e8f0',noteBkgColor:'#1e293b',noteTextColor:'#e2e8f0',noteBorderColor:'#475569',fontSize:'13px'}});</script>
+</body>
+</html>

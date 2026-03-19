@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.02 Customer Use Case Diagram — VELO Courrier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border-bottom: 2px solid #8b5cf6; padding: 24px 40px; }
+        .header .category { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #a78bfa; margin-bottom: 4px; }
+        .header h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; }
+        .header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .badge { display: inline-block; background: #4c1d95; color: #c4b5fd; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 12px; vertical-align: middle; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; min-height: calc(100vh - 100px); }
+        .mermaid { background: #1e293b; border-radius: 12px; padding: 32px; border: 1px solid #334155; box-shadow: 0 4px 24px rgba(0,0,0,0.3); max-width: 95vw; overflow-x: auto; }
+        @media print { body { background: #fff; color: #111; } .header { background: #f8fafc; } .header h1, .header .category, .header .subtitle { color: #111; } .mermaid { background: #fff; border-color: #ddd; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟣 Layer 3 — UML / Use Cases</div>
+        <h1>3.02 Customer Use Case Diagram <span class="badge">UML</span></h1>
+        <div class="subtitle">VELO Courrier — Customer Actor Interactions</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+flowchart LR
+    CUST["👤 Customer"]
+
+    subgraph ACCOUNT["Account Management"]
+        A1["Register via Phone/Email"]
+        A2["Login with OTP"]
+        A3["Social Login - Google"]
+        A4["Edit Profile"]
+        A5["Manage Addresses"]
+        A6["Add Payment Methods"]
+        A7["View Notifications"]
+    end
+
+    subgraph BOOKING["Booking"]
+        B1["Select Service Type"]
+        B2["Set Pickup Location"]
+        B3["Set Drop Location"]
+        B4["Add Multiple Stops"]
+        B5["Select Vehicle Category"]
+        B6["Enter Package Details"]
+        B7["Request Fare Estimate"]
+        B8["Apply Promo Code"]
+        B9["Schedule Future Booking"]
+        B10["Confirm Booking"]
+    end
+
+    subgraph TRACKING["During Trip"]
+        C1["View Driver Details"]
+        C2["Track Driver Live on Map"]
+        C3["Call / Chat with Driver"]
+        C4["View ETA Updates"]
+        C5["Share Trip with Contact"]
+        C6["Cancel Active Booking"]
+    end
+
+    subgraph PAYMENT["Payment"]
+        D1["Pay via UPI"]
+        D2["Pay via Card"]
+        D3["Pay from Wallet"]
+        D4["Pay Cash on Delivery"]
+        D5["View Receipt"]
+        D6["Request Refund"]
+    end
+
+    subgraph POST["Post-Delivery"]
+        E1["Rate Driver - 1 to 5 Stars"]
+        E2["Write Review"]
+        E3["Add Tip"]
+        E4["Report Issue"]
+        E5["View Booking History"]
+        E6["Re-book from History"]
+    end
+
+    subgraph SUPPORT["Support"]
+        F1["Browse FAQs"]
+        F2["Raise Support Ticket"]
+        F3["Chat with Agent"]
+        F4["Call Support"]
+        F5["Track Ticket Status"]
+    end
+
+    CUST --> A1
+    CUST --> A2
+    CUST --> A3
+    CUST --> A4
+    CUST --> A5
+    CUST --> A6
+    CUST --> A7
+
+    CUST --> B1
+    CUST --> B2
+    CUST --> B3
+    CUST --> B5
+    CUST --> B7
+    CUST --> B8
+    CUST --> B9
+    CUST --> B10
+
+    CUST --> C1
+    CUST --> C2
+    CUST --> C3
+
+    CUST --> D1
+    CUST --> D5
+    CUST --> D6
+
+    CUST --> E1
+    CUST --> E4
+    CUST --> E5
+
+    CUST --> F1
+    CUST --> F2
+
+    B2 -.->|includes| B4
+    B1 -.->|includes| B5
+    B5 -.->|includes| B6
+    B10 -.->|includes| B7
+
+    D1 -.->|extends| D2
+    D1 -.->|extends| D3
+    D1 -.->|extends| D4
+
+    E1 -.->|extends| E2
+    E1 -.->|extends| E3
+
+    classDef actorClass fill:#6d28d9,stroke:#8b5cf6,color:#fff,font-weight:bold
+    class CUST actorClass
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, themeVariables: { primaryColor: '#8b5cf6', primaryTextColor: '#f1f5f9', primaryBorderColor: '#a78bfa', lineColor: '#94a3b8', secondaryColor: '#1e293b', tertiaryColor: '#334155', fontSize: '12px' } });</script>
+</body>
+</html>

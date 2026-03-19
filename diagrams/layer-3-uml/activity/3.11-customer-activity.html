@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.11 Customer Activity Diagram — VELO Courrier</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}.header{background:linear-gradient(135deg,#1e1b4b,#0f172a);border-bottom:2px solid #8b5cf6;padding:24px 40px}.header .category{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:4px}.header h1{font-size:24px;font-weight:700;color:#f1f5f9}.header .subtitle{font-size:13px;color:#94a3b8;margin-top:4px}.badge{display:inline-block;background:#4c1d95;color:#c4b5fd;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;margin-left:12px;vertical-align:middle}.chart-container{display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;min-height:calc(100vh - 100px)}.mermaid{background:#1e293b;border-radius:12px;padding:32px;border:1px solid #334155;box-shadow:0 4px 24px rgba(0,0,0,.3);max-width:95vw;overflow-x:auto}@media print{body{background:#fff;color:#111}.header{background:#f8fafc}.header h1,.header .category,.header .subtitle{color:#111}.mermaid{background:#fff;border-color:#ddd}}</style>
+</head>
+<body>
+    <div class="header">
+        <div class="category">🟣 Layer 3 — UML / Activity Diagrams</div>
+        <h1>3.11 Customer Activity Diagram <span class="badge">UML</span></h1>
+        <div class="subtitle">VELO Courrier — Booking Workflow Decision Logic</div>
+    </div>
+    <div class="chart-container">
+        <div class="mermaid">
+stateDiagram-v2
+    [*] --> Start_App
+    Start_App --> Login_Flow
+    Login_Flow --> Select_Service
+    
+    Select_Service --> Set_Pickup
+    Set_Pickup --> Set_Drop
+    Set_Drop --> Get_Estimate
+    
+    Get_Estimate --> Confirm_Booking
+    
+    state Confirm_Booking <<choice>>
+    Confirm_Booking --> Cancel : Rejection
+    Confirm_Booking --> Select_Payment : Acceptance
+    
+    Cancel --> [*]
+    
+    Select_Payment --> Process_Payment
+    
+    state Process_Payment <<choice>>
+    Process_Payment --> Payment_Success : Auth OK
+    Process_Payment --> retry_Payment : Auth Fail
+    
+    retry_Payment --> Select_Payment
+    
+    Payment_Success --> Await_Dispatch
+    
+    state Await_Dispatch <<choice>>
+    Await_Dispatch --> Driver_Assigned : Found
+    Await_Dispatch --> No_Driver : Timeout
+    
+    No_Driver --> Get_Estimate : Retry
+    
+    Driver_Assigned --> Monitor_Trip
+    Monitor_Trip --> At_Drop
+    At_Drop --> Verify_Delivery
+    Verify_Delivery --> Rate_Driver
+    Rate_Driver --> [*]
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true,theme:'dark',themeVariables:{primaryColor:'#8b5cf6',primaryTextColor:'#f1f5f9',primaryBorderColor:'#a78bfa',lineColor:'#94a3b8'}});</script>
+</body>
+</html>
