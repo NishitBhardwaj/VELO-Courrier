@@ -1,9 +1,8 @@
 package com.velo.courrier.tracking;
 
-import com.velo.courrier.tracking.dto.LocationUpdateRequest;
+import com.velo.courrier.tracking.dto.DriverLocationRequest;
+import com.velo.courrier.tracking.service.DriverLocationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.geo.Point;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,36 +12,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.velo.courrier.tracking.dto.TrackingResponse;
+import com.velo.courrier.tracking.service.TrackingService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.UUID;
+
 @RestController
-@RequestMapping("/api/v1/tracking")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class TrackingController {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final DriverLocationService driverLocationService;
+    private final TrackingService trackingService;
 
-    // HTTP Endpoint for fallback updates
-    @PostMapping("/ping")
+    // HTTP Endpoint for driver location updates as per Step 1 constraints
+    @PostMapping("/drivers/location")
     @PreAuthorize("hasRole('DRIVER')")
     public ResponseEntity<Void> updateLocationHttp(
             Authentication authentication,
-            @RequestBody LocationUpdateRequest request
+            @RequestBody DriverLocationRequest request
     ) {
         String driverId = authentication.getName();
-        updateRedisGeo(driverId, request.getLat(), request.getLon());
+        driverLocationService.updateLocation(driverId, request);
         return ResponseEntity.ok().build();
     }
 
-    // WebSocket Endpoint for high-frequency updates
-    @MessageMapping("/tracking.ping")
-    public void updateLocationWs(Authentication authentication, LocationUpdateRequest request) {
-        if (authentication != null && authentication.getName() != null) {
-            updateRedisGeo(authentication.getName(), request.getLat(), request.getLon());
-        }
+    // Step 3 Fallback API
+    @GetMapping("/bookings/{id}/tracking")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMIN')")
+    public ResponseEntity<TrackingResponse> getBookingTracking(
+            @PathVariable("id") UUID id,
+            Authentication authentication
+    ) {
+        String userId = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        
+        TrackingResponse response = trackingService.getTrackingInfo(id, userId, isAdmin);
+        return ResponseEntity.ok(response);
     }
 
-    private void updateRedisGeo(String driverId, double lat, double lon) {
-        // In real app, we'd also store the driver's vehicle category in Redis hash
-        // For matching, we index the driver's location
-        redisTemplate.opsForGeo().add("driver_locations", new Point(lon, lat), driverId);
+    // WebSocket Endpoint alternative
+    @MessageMapping("/tracking.ping")
+    public void updateLocationWs(Authentication authentication, DriverLocationRequest request) {
+        if (authentication != null && authentication.getName() != null) {
+            driverLocationService.updateLocation(authentication.getName(), request);
+        }
     }
 }

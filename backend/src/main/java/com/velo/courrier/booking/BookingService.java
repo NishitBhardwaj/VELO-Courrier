@@ -23,11 +23,17 @@ public class BookingService {
     private final UserRepository userRepository;
     private final PricingService pricingService;
     private final ApplicationEventPublisher eventPublisher;
+    private final com.velo.courrier.ops.ZoneValidationService zoneValidationService;
 
     @Transactional
     public BookingResponse createBooking(UUID customerId, BookingRequest request) {
         AppUser customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        // Sprint 4: Geofence Validation
+        if (!zoneValidationService.validateSingleStopRequest(request)) {
+             throw new IllegalStateException("Requested route falls outside active delivery service zones.");
+        }
 
         BigDecimal fare = pricingService.calculateEstimate(
                 request.getVehicleCategoryId(), 
@@ -66,8 +72,15 @@ public class BookingService {
         return mapToResponse(booking);
     }
 
+    @Transactional(readOnly = true)
+    public BookingResponse getBookingDetails(UUID bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        return mapToResponse(booking);
+    }
+
     private BookingResponse mapToResponse(Booking booking) {
-        return BookingResponse.builder()
+        BookingResponse response = BookingResponse.builder()
                 .id(booking.getId().toString())
                 .status(booking.getStatus())
                 .fareEstimate(booking.getFareEstimate())
@@ -75,7 +88,14 @@ public class BookingService {
                 .pickupAddress(booking.getPickupAddress())
                 .dropoffAddress(booking.getDropoffAddress())
                 .customerId(booking.getCustomer() != null ? booking.getCustomer().getId().toString() : null)
-                .driverId(booking.getDriver() != null ? booking.getDriver().getUserId().toString() : null)
+                .driverId(booking.getDriver() != null ? booking.getDriver().getId().toString() : null)
+                .multiStopEnabled(booking.isMultiStopEnabled())
+                .totalStops(booking.getTotalStops())
+                .currentStopOrder(booking.getCurrentStopOrder())
                 .build();
+                
+        // In a real expanded app, Stop Repository would be injected here or this logic lives in a Facade.
+        // For the scaffolding, stops are dynamically hydrated at the facade layer when multiStopEnabled = true.
+        return response;
     }
 }

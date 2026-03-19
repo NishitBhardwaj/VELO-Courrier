@@ -38,4 +38,10 @@ public class BookingController {
         // Validation that the booking belongs to the caller should exist here
         return ResponseEntity.ok(bookingService.confirmBooking(id));
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'DRIVER', 'BUSINESS', 'ADMIN')")
+    public ResponseEntity<BookingResponse> getBooking(@PathVariable UUID id) {
+        return ResponseEntity.ok(bookingService.getBookingDetails(id));
+    }
 }

@@ -48,9 +48,40 @@ public class Booking extends BaseEntity {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
+    @Column(name = "estimated_fare", precision = 10, scale = 2)
+    private BigDecimal estimatedFare;
+
+    @Column(name = "final_fare", precision = 10, scale = 2)
+    private BigDecimal finalFare;
+
+    @Version
+    @Column(name = "version")
+    private Integer version;
+
     @Column(name = "scheduled_time")
     private LocalDateTime scheduledTime;
 
-    @Column(name = "fare_estimate")
-    private BigDecimal fareEstimate;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    
+    // Sprint 2: Multi-Stop Additions
+    @Column(name = "total_stops")
+    private Integer totalStops = 1;
+
+    @Column(name = "current_stop_order")
+    private Integer currentStopOrder = 1;
+
+    @Column(name = "multi_stop_enabled")
+    private boolean multiStopEnabled = false;
+
+    @Column(name = "route_distance_meters")
+    private Integer routeDistanceMeters;
+
+    @Column(name = "route_duration_seconds")
+    private Integer routeDurationSeconds;
 }

@@ -15,8 +15,14 @@ public class BookingResponse {
     private BookingStatus status;
     private BigDecimal fareEstimate;
     private String serviceType;
-    private Address pickupAddress;
-    private Address dropoffAddress;
+    private String pickupAddress;
+    private String dropoffAddress;
     private String customerId;
     private String driverId;
+
+    // Sprint 2 Multi-Stop Fields
+    private boolean multiStopEnabled;
+    private Integer totalStops;
+    private Integer currentStopOrder;
+    private List<StopDto> stops;
 }

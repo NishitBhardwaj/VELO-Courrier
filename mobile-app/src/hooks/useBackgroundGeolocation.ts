@@ -35,11 +35,11 @@ export const useBackgroundGeolocation = (isDriverOnline: boolean) => {
         }
 
         await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-          accuracy: Location.Accuracy.High,
+          accuracy: Location.Accuracy.BestForNavigation,
           showsBackgroundLocationIndicator: true,
-          timeInterval: 15000, // 15 seconds
-          distanceInterval: 10,  // Or every 10 meters
-          deferredUpdatesInterval: 15000,
+          timeInterval: 5000,     // 5 seconds background
+          distanceInterval: 5,    // 5 meters
+          deferredUpdatesInterval: 5000,
           foregroundService: {
             notificationTitle: 'VELO Courrier Driver',
             notificationBody: 'You are online and actively sharing your location to receive deliveries.',
@@ -76,10 +76,13 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
   if (data) {
     const { locations } = data as any;
     try {
-      // Broadcast to Redis GEOSEARCH
-      await api.post('/tracking/ping', {
-        lat: locations[0].coords.latitude,
-        lon: locations[0].coords.longitude,
+      const loc = locations[0].coords;
+      await api.post('/drivers/location', {
+        latitude: loc.latitude,
+        longitude: loc.longitude,
+        heading: loc.heading,
+        speed: loc.speed,
+        accuracy: loc.accuracy
       });
     } catch (err) {
       console.log("Background Ping failed - likely network drop", err);
