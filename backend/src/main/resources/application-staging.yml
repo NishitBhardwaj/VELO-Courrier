@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:database-staging.internal.velocourrier.com}:5432/velodb
+    username: ${DB_USER:staging_user}
+    password: ${DB_PASS}
+  
+  data:
+    redis:
+      host: ${REDIS_HOST:redis-staging.internal.velocourrier.com}
+      port: 6379
+
+  flyway:
+    enabled: true
+
+app:
+  jwt:
+    # Staging uses a different injected secret
+    secret: ${JWT_SECRET}
+    expiration: 86400000
+
+logging:
+  level:
+    root: INFO
+    com.velo.courrier: DEBUG
+  # Output as JSON for Datadog / ELK in staging
+  pattern:
+    console: '{"time":"%d{ISO8601}", "traceId":"%X{traceId:-}", "level":"%p", "thread":"%t", "class":"%logger{40}", "message":"%m"}%n'
