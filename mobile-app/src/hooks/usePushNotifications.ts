@@ -11,14 +11,16 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true
   }),
 });
 
 export const usePushNotifications = () => {
   const [expoPushToken, setExpoPushToken] = useState<string | undefined>();
-  const [notification, setNotification] = useState<Notifications.Notification | undefined>();
-  const notificationListener = useRef<Notifications.EventSubscription>();
-  const responseListener = useRef<Notifications.EventSubscription>();
+  const [notification, setNotification] = useState<any>(false);
+  const notificationListener = useRef<any>(null);
+  const responseListener = useRef<any>(null);
   const { accessToken } = useAuth(); // Dependency to re-trigger registering when logged in
 
   useEffect(() => {
@@ -33,20 +35,24 @@ export const usePushNotifications = () => {
     });
 
     // Foreground listener
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification: any) => {
       setNotification(notification);
       // Example: If driver gets "Offer" push notification while in App, trigger local beep.
     });
 
     // Tap/Background listener
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response: any) => {
       console.log('User tapped Notification', response);
       // Router naturally pushes to /booking/{id} 
     });
 
     return () => {
-      if (notificationListener.current) Notifications.removeNotificationSubscription(notificationListener.current);
-      if (responseListener.current) Notifications.removeNotificationSubscription(responseListener.current);
+      if (notificationListener.current) {
+        notificationListener.current.remove();
+      }
+      if (responseListener.current) {
+        responseListener.current.remove();
+      }
     };
   }, [accessToken]);
 

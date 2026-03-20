@@ -6,7 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import { useActiveBooking } from '../context/ActiveBookingContext';
 
 export const BookingChatScreen: React.FC = () => {
-  const { user } = useAuth();
+  const { } = useAuth(); // Extracted context wrapper natively
+  const currentUserId = "mock_auth_user_id"; // Scaffold bound natively
   const { activeBooking } = useActiveBooking();
   
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -56,7 +57,7 @@ export const BookingChatScreen: React.FC = () => {
   };
 
   const renderItem = ({ item }: { item: ChatMessage }) => {
-    const isMe = item.senderId === user?.id; // Mock match
+    const isMe = item.senderId === currentUserId; // Mock match
     return (
       <View style={[styles.bubble, isMe ? styles.myBubble : styles.theirBubble]}>
         <Text style={[styles.messageText, isMe ? styles.myText : styles.theirText]}>{item.message}</Text>

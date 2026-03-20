@@ -114,6 +114,12 @@ export const CustomerTrackingMap: React.FC<CustomerTrackingMapProps> = ({ bookin
 
   return (
     <View style={styles.container}>
+      <MapView style={styles.map}
+        initialRegion={{
+          latitude: driverLocation.lat,
+          longitude: driverLocation.lng,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
         }}
       >
         {driverLocation && (

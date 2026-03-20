@@ -2,7 +2,7 @@ package com.velo.courrier.events.consumers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-// import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -12,13 +12,12 @@ import java.util.Map;
 @Slf4j
 public class NotificationConsumerService {
 
-    // private final NotificationQueueRepository notificationQueueRepository;
-    // private final FcmPushClient fcmPushClient;
+    private final NotificationQueueRepository notificationQueueRepository;
+    private final FcmPushClient fcmPushClient;
 
     /**
      * Fully decoupled from the main Booking Saving JVM.
      * Consumes native Kafka messages originally produced by the OutboxRelayScheduler.
-     */
     // @KafkaListener(topics = "velo.booking.events", groupId = "notification-group")
     public void consumeBookingEvents(String messagePayload) {
         log.info("NOTIFICATION-CONSUMER RECEIVED Payload: {}", messagePayload);
@@ -28,7 +27,6 @@ public class NotificationConsumerService {
         // 2. Determine Event Type (e.g. BOOKING_CREATED, MANUAL_ASSIGNMENT_COMPLETED)
         // 3. Fire FCM Push Notification logic
         
-        /*
         try {
             Map<String, Object> eventData = objectMapper.readValue(messagePayload, Map.class);
             String eventType = (String) eventData.get("eventType");
@@ -49,6 +47,5 @@ public class NotificationConsumerService {
             // notificationQueueRepository.save(...);
             throw new RuntimeException("Triggering Kafka redelivery sequence", e);
         }
-        */
     }
 }

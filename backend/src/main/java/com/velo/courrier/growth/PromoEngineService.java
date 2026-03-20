@@ -13,17 +13,15 @@ import java.time.LocalDateTime;
 @Slf4j
 public class PromoEngineService {
 
-    // private final PromoCodeRepository promoCodeRepository;
-    // private final PromoUsageRepository usageRepository;
+    private final PromoCodeRepository promoCodeRepository;
+    private final PromoUsageRepository usageRepository;
 
     /**
      * Re-calculates Cart structures dynamically adjusting base fares natively depending on
      * specific Promotional Code algebra (Percentage or Flat discounts) protecting bounds.
-     */
     public BigDecimal applyPromoCode(String codeString, BigDecimal cartTotal) {
         log.info("PROMO_ENGINE: Validating submission array: [{}] against gross cart ${}", codeString, cartTotal);
 
-        /*
         PromoCode promo = promoCodeRepository.findByCodeAndActiveTrue(codeString)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid or Inactive Promo Code"));
         
@@ -53,7 +51,6 @@ public class PromoEngineService {
 
         log.info("Promo Code [{}] successfully validated. Adjusted Cart: ${}", codeString, finalTotal);
         return finalTotal;
-        */
 
         // Scaffold Mock Fallback allowing compilation arrays to bridge natively
         return cartTotal.subtract(new BigDecimal("5.00")).max(BigDecimal.ZERO);

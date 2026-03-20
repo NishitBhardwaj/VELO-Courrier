@@ -13,13 +13,12 @@ import java.util.UUID;
 @Slf4j
 public class TransactionalEventPublisher {
 
-    // private final EventOutboxRepository outboxRepository;
+    private final EventOutboxRepository outboxRepository;
     private final ObjectMapper objectMapper;
 
     /**
      * Publishes an event to the Outbox table natively bound to the current Hibernate Transaction.
      * This guarantees 100% durability: if the main DB transaction rolls back, the event rolls back.
-     */
     public void publishEvent(String aggregateType, UUID aggregateId, String eventType, Object payloadObject) {
         try {
             String jsonPayload = objectMapper.writeValueAsString(payloadObject);

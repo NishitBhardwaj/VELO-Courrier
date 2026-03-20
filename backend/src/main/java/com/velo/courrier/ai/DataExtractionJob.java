@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class DataExtractionJob {
 
-    // private final MlTrainingDataRepository mlDataRepository;
+    private final MlTrainingDataRepository mlDataRepository;
 
     /**
      * Executes nightly fetching 100% of the completed bookings from the trailing 24 hours.
      * Denormalizes relations natively into flat telemetry models pushing straight to `ml_training_data`
      * allowing the Python AI Service to consume large-scale arrays cleanly for model re-training.
-     */
     @Scheduled(cron = "0 0 3 * * ?") // 3:00 AM Nightly
     public void generateTrainingDataExtract() {
         log.info("AI_DATAPIPE: Scanning trailing Postgres operations for ML normalization...");

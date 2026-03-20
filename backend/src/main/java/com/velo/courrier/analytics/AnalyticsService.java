@@ -12,8 +12,8 @@ import java.util.Map;
 @Slf4j
 public class AnalyticsService {
 
-    // private final BookingRepository bookingRepository;
-    // private final ZoneEventRepository zoneEventRepository;
+    private final BookingRepository bookingRepository;
+    private final ZoneEventRepository zoneEventRepository;
 
     // @Cacheable(value = "analyticKpis", key = "'global'")
     public Map<String, Object> getOperationalKpis() {

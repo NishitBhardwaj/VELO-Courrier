@@ -16,15 +16,14 @@ import java.util.UUID;
 @Slf4j
 public class DynamicPricingService {
 
-    // private final SurgeLogRepository surgeLogRepository;
-    // private final DriverRepository driverRepository;
-    // private final BookingRepository bookingRepository;
-    // private final OperationalRegionRepository regionRepository;
+    private final SurgeLogRepository surgeLogRepository;
+    private final DriverRepository driverRepository;
+    private final BookingRepository bookingRepository;
+    private final OperationalRegionRepository regionRepository;
 
     /**
      * Algorithmic surge estimator intersecting localized Real-time GPS Supply heavily against
      * pending Operational checkout carts mapping strict TimeZone biases.
-     */
     public BigDecimal calculateSurgeMultiplier(UUID regionId) {
         log.debug("DYNAMIC_PRICING: Evaluating surge matrix for Region {}...", regionId);
 
@@ -47,13 +46,11 @@ public class DynamicPricingService {
 
         // BigDecimal finalSurge = timeMultiplier.max(demandMultiplier);
         
-        /*
         if (finalSurge.compareTo(BigDecimal.ONE) > 0) {
             log.warn("SURGE_ACTIVE: Region {} hit {}x Multiplier natively.", regionId, finalSurge);
             // Documenting Surge Active Event into Pricing Logs for Analytics
             saveSurgeLog(regionId, finalSurge);
         }
-        */
 
         // Scaffold Mock for successful build execution
         return new BigDecimal("1.00");

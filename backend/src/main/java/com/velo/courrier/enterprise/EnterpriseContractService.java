@@ -14,16 +14,14 @@ import java.util.UUID;
 @Slf4j
 public class EnterpriseContractService {
 
-    // private final EnterpriseContractRepository contractRepository;
+    private final EnterpriseContractRepository contractRepository;
 
     /**
      * Intercepts standard fare estimates natively, evaluating runtime boolean rules 
      * on active B2B Enterprise Agreements.
-     */
     public BigDecimal applyContractDiscounts(UUID customerId, BigDecimal baseFare) {
         log.debug("Evaluating potential Enterprise Pricing Contract for Customer: {}", customerId);
 
-        /*
         Optional<EnterpriseContract> activeContract = contractRepository.findByCustomerUserIdAndActiveTrue(customerId);
         
         if (activeContract.isPresent()) {
@@ -38,18 +36,15 @@ public class EnterpriseContractService {
                 return finalFare;
             }
         }
-        */
 
         // Scaffold Mock Fallback
         return baseFare;
     }
 
     public String resolvePriorityTier(UUID customerId) {
-        /*
         return contractRepository.findByCustomerUserIdAndActiveTrue(customerId)
                 .map(EnterpriseContract::getSlaPriorityTier)
                 .orElse("STANDARD");
-        */
         return "STANDARD";
     }
 }

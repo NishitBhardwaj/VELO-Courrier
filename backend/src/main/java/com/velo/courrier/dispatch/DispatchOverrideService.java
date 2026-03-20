@@ -17,8 +17,8 @@ import java.util.UUID;
 public class DispatchOverrideService {
 
     private final BookingRepository bookingRepository;
-    // private final DispatchOverrideEventRepository overrideRepository;
-    // private final UserRepository userRepository;
+    private final DispatchOverrideEventRepository overrideRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void forceAssignDriver(UUID bookingId, UUID adminId, UUID newDriverId, String reason) {

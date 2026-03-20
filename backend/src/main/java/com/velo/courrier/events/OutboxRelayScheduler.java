@@ -12,8 +12,8 @@ import java.util.List;
 @Slf4j
 public class OutboxRelayScheduler {
 
-    // private final EventOutboxRepository outboxRepository;
-    // private final KafkaTemplate<String, String> kafkaTemplate;
+    private final EventOutboxRepository outboxRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Scheduled(fixedDelayString = "2000") // Run every 2 seconds
     public void processPendingOutboxEvents() {
@@ -24,7 +24,6 @@ public class OutboxRelayScheduler {
 
         log.debug("OutboxRelayScheduler tick - scanning for PENDING transactional events...");
 
-        /*
         List<EventOutbox> pendingEvents = outboxRepository.findTop50ByStatusOrderByCreatedAtAsc("PENDING");
         for (EventOutbox event : pendingEvents) {
             try {
@@ -46,6 +45,5 @@ public class OutboxRelayScheduler {
                 log.error("Failed to relay event to Kafka", e);
             }
         }
-        */
     }
 }

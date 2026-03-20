@@ -12,14 +12,13 @@ import java.time.LocalDate;
 @Slf4j
 public class DriverDocumentService {
 
-    // private final DriverDocumentRepository documentRepository;
-    // private final DriverRepository driverRepository;
-    // private final TransactionalEventPublisher outboxPublisher;
+    private final DriverDocumentRepository documentRepository;
+    private final DriverRepository driverRepository;
+    private final TransactionalEventPublisher outboxPublisher;
 
     /**
      * Governs document expiration policies cleanly.
      * Fires nightly directly sweeping the document signatures mapping invalidation states.
-     */
     @Scheduled(cron = "0 30 2 * * ?") // 2:30 AM Daily
     public void executeDocumentExpiryLifecycle() {
         log.info("GOVERNANCE DAEMON: Commencing KYC Driver Expiration sweeping routine...");
@@ -29,7 +28,6 @@ public class DriverDocumentService {
         // 1. Identify EXPIRED documents natively
         // List<DriverDocument> expiredDocs = documentRepository.findAllByExpiryDateBeforeAndStatus(today, "APPROVED");
 
-        /*
         for (DriverDocument doc : expiredDocs) {
             
             // Mark Document Stale
@@ -50,7 +48,6 @@ public class DriverDocumentService {
 
             log.warn("governance_action: Suspended Operations for Driver {}. Document {} Expired.", driver.getId(), doc.getDocumentType());
         }
-        */
 
         // 2. T-7 Days Reminder Push Sweep
         // ... (Similar logic sweeping today.plusDays(7) hooking outbox Publisher reminder payloads)

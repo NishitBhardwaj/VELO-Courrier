@@ -15,7 +15,7 @@ import java.util.UUID;
 @Slf4j
 public class ZoneValidationService {
 
-    // private final ServiceZoneRepository zoneRepository;
+    private final ServiceZoneRepository zoneRepository;
     
     // In a production app, we would use PostGIS ST_Contains or a Ray-Casting algorithm in Java
     // to check if the point {lat, lng} is inside the `polygon_geojson`

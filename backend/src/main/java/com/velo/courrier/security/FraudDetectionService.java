@@ -11,15 +11,14 @@ import java.util.UUID;
 @Slf4j
 public class FraudDetectionService {
 
-    // private final RouteDeviationEventRepository...
-    // private final UserTrustScoreRepository... 
+    private final RouteDeviationEventRepository...
+    private final UserTrustScoreRepository... 
 
     /**
      * Intercepts Redis Driver Location push streams.
      * Compares the distance jumped against physical time delays.
      * If distance/time transcends physical bounds (>80MPH), 
      * force suspends tracking capability and alerts operators.
-     */
     public void detectLocationSpoofing(UUID driverId, Double lastLat, Double lastLng, long lastTimeMs, Double newLat, Double newLng, long newTimeMs) {
         
         // 1. Calculate Physical Distance (Haversine implicitly or PostGIS natively)
@@ -47,21 +46,18 @@ public class FraudDetectionService {
 
     /**
      * Synchronously intercepts standard Booking Cancellations checking volumetric abuse arrays.
-     */
     public void trackCancellationVolume(UUID userId) {
         log.debug("Evaluating Trust Score cancellation algorithms for UID: {}", userId);
         
         // Count cancellations today
         // int todaysCancels = bookingRepository.countByCustomerIdAndStatusAndDate(userId, CANCELED, LocalDate.now());
         
-        /*
         if (todaysCancels >= 3) {
             log.warn("fraud_alert [CANCELLATION_ABUSE]: User {} breached soft cancel limits.", userId);
             
             // deductTrustScore(userId, 20, "RAPID_VOLUME_CANCELLATION");
             // If Trust Score drops below 40 -> Shadowban/Suspend booking capabilities natively.
         }
-        */
     }
 
     private double calculateDistance(Double lat1, Double lng1, Double lat2, Double lng2) {

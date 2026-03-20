@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class StaleEventCleanupWorker {
 
-    // private final EtaTrackingLogRepository etaTrackingLogRepository;
-    // private final RouteDeviationEventRepository deviationEventRepository;
+    private final EtaTrackingLogRepository etaTrackingLogRepository;
+    private final RouteDeviationEventRepository deviationEventRepository;
 
     /**
      * Nightly maintenance chron job offloading database pressure
      * by destroying granular physical tracking logs older than 30 days.
-     */
     @Scheduled(cron = "0 0 2 * * ?") // 2:00 AM Daily
     public void cleanupOldTrackingLogs() {
         log.info("NIGHTLY WORKER: Commencing 30-day Tracking Log purge...");
